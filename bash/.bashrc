@@ -26,4 +26,9 @@ trysource_all() {
     fi
 }
 
+if [ -f /etc/bashrc ]
+then
+    . /etc/bashrc
+fi
+
 trysource_all "${HOME}/.bashrc.d"
