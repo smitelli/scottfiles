@@ -1,4 +1,4 @@
-pwfile="${HOME}/.secrets/ssmitelli@$dc.db.devorch.com"
+pwfile="${HOME}/.secrets/ssmitelli@dc.db.devorch.com"
 if [[ -f "$pwfile" && -r "$pwfile" ]]
 then
     alias "dcdb"="mysql -hdc.db.devorch.com -ussmitelli -p`cat $pwfile`"
