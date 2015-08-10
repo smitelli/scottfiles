@@ -1,0 +1,42 @@
+[user]
+    name = Scott Smitelli
+    email = scott@smitelli.com
+
+[core]
+    pager = less -SR
+
+[merge]
+    conflictstyle = diff3
+
+[push]
+    default = current
+
+[alias]
+    br = branch
+    ci = commit
+    co = checkout
+    df = diff
+    lg = log --oneline --graph --decorate
+    st = status
+
+[color]
+    branch = auto
+    diff = auto
+    status = auto
+    ui = true
+
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan

@@ -1,0 +1,41 @@
+{
+	"sublimelinter_delay": 0.5,
+
+	"jshint_options":
+	{
+		"predef":
+		[
+			"describe",
+			"it",
+			"before",
+			"after",
+			"beforeEach",
+			"afterEach"
+		],
+
+		// ENFORCING
+		"curly": true,
+		"eqeqeq": true,
+		"forin": true,
+		"immed": true,
+		"latedef": "nofunc",
+		"newcap": true,
+		"noarg": true,
+		"nonew": true,
+		"undef": true,
+		"unused": true,
+		"strict": false,
+		"trailing": true,
+		"maxlen": 120,
+
+		// RELAXING
+		"evil": false,
+		"expr": true,
+		"sub": false,
+
+		// ENVIRONMENTS
+		"browser": true,
+		"node": true,
+		"wsh": false
+	}
+}
