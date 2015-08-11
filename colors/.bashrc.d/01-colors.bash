@@ -1,7 +1,18 @@
+# ANSI Text Attributes
 ANSI_RESET=0
 ANSI_BOLD=1
-ANSI_TEXT=3
+ANSI_ITALIC=3
+ANSI_UNDERLINE=4
+ANSI_BLINK=5
+ANSI_REVERSE=7
+ANSI_CONCEAL=8
+ANSI_STRIKETHROUGH=9
+
+# ANSI Foreground/Background Bits
+ANSI_FG=3
 ANSI_BG=4
+
+# ANSI Color Codes
 ANSI_BLACK=0
 ANSI_RED=1
 ANSI_GREEN=2
@@ -11,129 +22,105 @@ ANSI_MAGENTA=5
 ANSI_CYAN=6
 ANSI_WHITE=7
 
-ansi_text() {
-    local OPTIND OPTERR
-    local color_name color background style="${ANSI_RESET}"
+# Converts a series of options to an ANSI color code.
+#   -f <color>
+#         Set the foreground color. <color> should be one of BLACK, RED, GREEN,
+#         YELLOW, BLUE, MAGENTA, CYAN, or WHITE.
+#   -b <color>
+#         Set the background color. Takes the same values as -f.
+#   -B    Use a bold font.
+#   -I    Use an italic font.
+#   -U    Use an underlined font.
+#   -L    Blink the text.
+#   -R    Reverse the foreground and background colors.
+#   -C    Conceal the text. It will occupy space, but not be visible.
+#   -S    Add a strikethrough line to the text.
+ansicolor() {
+    local OPTIND OPTERR key fgcolor bgcolor style="${ANSI_RESET}"
 
-    while getopts "c:g:b" opt
+    while getopts 'f:b:BIULRCS' opt
     do
         case "${opt}" in
-            c)
-                color_name="ANSI_${OPTARG}"
-                [[ -n "${!color_name}" ]] &&
-                    color="${ANSI_TEXT}${!color_name}"
-                ;;
-            g)
-                color_name="ANSI_${OPTARG}"
-                [[ -n "${!color_name}" ]] &&
-                    background="${ANSI_BG}${!color_name}"
+            f)
+                key="ANSI_${OPTARG}"
+                [[ -n "${!key}" ]] && fgcolor="${ANSI_FG}${!key}"
                 ;;
             b)
+                key="ANSI_${OPTARG}"
+                [[ -n "${!key}" ]] && bgcolor="${ANSI_BG}${!key}"
+                ;;
+            B)
                 style="${ANSI_BOLD}"
+                ;;
+            I)
+                style="${ANSI_ITALIC}"
+                ;;
+            U)
+                style="${ANSI_UNDERLINE}"
+                ;;
+            L)
+                style="${ANSI_BLINK}"
+                ;;
+            R)
+                style="${ANSI_REVERSE}"
+                ;;
+            C)
+                style="${ANSI_CONCEAL}"
+                ;;
+            S)
+                style="${ANSI_STRIKETHROUGH}"
                 ;;
         esac
     done
-    echo "${style}${color:+;${color}}${background:+;${background}}"
+
+    printf "${style}${fgcolor:+;${fgcolor}}${bgcolor:+;${bgcolor}}"
 }
 
-# No Color
-COLOR_NC="\033[$(ansi_text)m"
-COLOR_NC_BOLD="\033[$(ansi_text -b)m"
-
-COLOR_BLACK="\033[$(ansi_text -c BLACK)m"
-COLOR_RED="\033[$(ansi_text -c RED)m"
-COLOR_GREEN="\033[$(ansi_text -c GREEN)m"
-COLOR_YELLOW="\033[$(ansi_text -c YELLOW)m"
-COLOR_BLUE="\033[$(ansi_text -c BLUE)m"
-COLOR_MAGENTA="\033[$(ansi_text -c MAGENTA)m"
-COLOR_CYAN="\033[$(ansi_text -c CYAN)m"
-COLOR_WHITE="\033[$(ansi_text -c WHITE)m"
-
-COLOR_BLACK_BOLD="\033[$(ansi_text -b -c BLACK)m"
-COLOR_RED_BOLD="\033[$(ansi_text -b -c RED)m"
-COLOR_GREEN_BOLD="\033[$(ansi_text -b -c GREEN)m"
-COLOR_YELLOW_BOLD="\033[$(ansi_text -b -c YELLOW)m"
-COLOR_BLUE_BOLD="\033[$(ansi_text -b -c BLUE)m"
-COLOR_MAGENTA_BOLD="\033[$(ansi_text -b -c MAGENTA)m"
-COLOR_CYAN_BOLD="\033[$(ansi_text -b -c CYAN)m"
-COLOR_WHITE_BOLD="\033[$(ansi_text -b -c WHITE)m"
-
-# From https://github.com/tomislav/osx-lion-terminal.app-colors-solarized
-SOLARIZED_COLOR_BASE03="${COLOR_BLACK_BOLD}"
-SOLARIZED_COLOR_BASE02="${COLOR_BLACK}"
-SOLARIZED_COLOR_BASE01="${COLOR_GREEN_BOLD}"
-SOLARIZED_COLOR_BASE00="${COLOR_YELLOW_BOLD}"
-SOLARIZED_COLOR_BASE0="${COLOR_BLUE_BOLD}"
-SOLARIZED_COLOR_BASE1="${COLOR_CYAN_BOLD}"
-SOLARIZED_COLOR_BASE2="${COLOR_WHITE}"
-SOLARIZED_COLOR_BASE3="${COLOR_WHITE_BOLD}"
-SOLARIZED_COLOR_YELLOW="${COLOR_YELLOW}"
-SOLARIZED_COLOR_ORANGE="${COLOR_RED_BOLD}"
-SOLARIZED_COLOR_RED="${COLOR_RED}"
-SOLARIZED_COLOR_MAGENTA="${COLOR_MAGENTA}"
-SOLARIZED_COLOR_VIOLET="${COLOR_MAGENTA_BOLD}"
-SOLARIZED_COLOR_BLUE="${COLOR_BLUE}"
-SOLARIZED_COLOR_CYAN="${COLOR_CYAN}"
-SOLARIZED_COLOR_GREEN="${COLOR_GREEN}"
-
-SOLARIZED_DARK_BG="${SOLARIZED_COLOR_BASE03}"
-SOLARIZED_DARK_BG_HIGHLIGHT="${SOLARIZED_COLOR_BASE02}"
-SOLARIZED_DARK_COMMENTS="${SOLARIZED_COLOR_BASE01}"
-SOLARIZED_DARK_TEXT="${SOLARIZED_COLOR_BASE0}"
-SOLARIZED_DARK_EM="${SOLARIZED_COLOR_BASE1}"
-
-SOLARIZED_LIGHT_BG="${SOLARIZED_COLOR_BASE3}"
-SOLARIZED_LIGHT_BG_HIGHLIGHT="${SOLARIZED_COLOR_BASE2}"
-SOLARIZED_LIGHT_COMMENTS="${SOLARIZED_COLOR_BASE1}"
-SOLARIZED_LIGHT_TEXT="${SOLARIZED_COLOR_BASE00}"
-SOLARIZED_LIGHT_EM="${SOLARIZED_COLOR_BASE01}"
-
-# TODO need to find a better way to detect this
-SOLARIZED_MODE=DARK
-
-_prompt_escape() {
-    echo "\[${@}\]"
+# Wraps ansicolor() but outputs the necessary control characters to make the
+# terminal actually change the color.
+termcolor() {
+    printf "\033[$(ansicolor ${@})m"
 }
 
-_prompt_color() {
-    local color="${1}"; shift
-    echo $(_prompt_escape "${!color}")${@}$(_prompt_escape "${COLOR_NC}")
-}
+# Foreground colors on a default background.
+COLOR_NC=$(termcolor)
+COLOR_BLACK=$(termcolor -f BLACK)
+COLOR_RED=$(termcolor -f RED)
+COLOR_GREEN=$(termcolor -f GREEN)
+COLOR_YELLOW=$(termcolor -f YELLOW)
+COLOR_BLUE=$(termcolor -f BLUE)
+COLOR_MAGENTA=$(termcolor -f MAGENTA)
+COLOR_CYAN=$(termcolor -f CYAN)
+COLOR_WHITE=$(termcolor -f WHITE)
 
-rgb2hex() {
-    perl -e '
-        (shift @ARGV) =~
-            /rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)/ &&
-                printf "#%02X%02X%02X\n", $1, $2, $3
-    ' \
-    "${@}"
-}
+# Bold foreground colors on a default background.
+COLOR_BOLD_NC=$(termcolor -B)
+COLOR_BOLD_BLACK=$(termcolor -B -f BLACK)
+COLOR_BOLD_RED=$(termcolor -B -f RED)
+COLOR_BOLD_GREEN=$(termcolor -B -f GREEN)
+COLOR_BOLD_YELLOW=$(termcolor -B -f YELLOW)
+COLOR_BOLD_BLUE=$(termcolor -B -f BLUE)
+COLOR_BOLD_MAGENTA=$(termcolor -B -f MAGENTA)
+COLOR_BOLD_CYAN=$(termcolor -B -f CYAN)
+COLOR_BOLD_WHITE=$(termcolor -B -f WHITE)
 
-hex2rgb() {
-    perl -e '
-        (shift @ARGV) =~
-            /#?([[:xdigit:]]{2})([[:xdigit:]]{2})([[:xdigit:]]{2})/ &&
-                printf "rgb(%d, %d, %d)\n", hex($1), hex($2), hex($3)
-    ' \
-    "${@}";
-}
-
+# Test function that loops over every defined variable name that starts with a
+# 'COLOR_' prefix and prints formatted sample text to the terminal.
 colors() {
-    local color_vars="\${!${1:-COLOR_}*}"
     local color
-    for color in $(eval "echo ${color_vars}")
+
+    for color in ${!COLOR_*}
     do
         echo -e "${!color}${color}${COLOR_NC}"
     done
 }
 
-solarized_colors() {
-    colors SOLARIZED_COLOR_
-}
+export CLICOLOR=1
 
-# Try to determine whether the 'ls' command supports the '--color' option
+# Colors for ls
 if $(ls --color >/dev/null 2>&1)
 then
+    # For non-OS X
     local dircolors_file="${HOME}/.dircolors/dircolors-solarized/dircolors.ansi-universal"
 
     if (has dircolors && [[ -f "${dircolors_file}" && -r "${dircolors_file}" ]])
@@ -143,22 +130,21 @@ then
 
     alias ls='ls --color=auto'
 else
-    # Set colors for BSD ls (Mac OS X)
-    # Borrowed from https://github.com/seebi/dircolors-solarized/issues/10
+    # For OS X -- A cheap approximation
+    # https://github.com/seebi/dircolors-solarized/issues/10
     export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
 fi
 
-export GREP_COLOR="$(ansi_text -c GREEN)"
+# Colors for grep
+export GREP_COLOR=$(ansicolor -f GREEN)  # For OS X
+export GREP_COLORS="fn=$(ansicolor -B -f CYAN):ln=$(ansicolor -f CYAN):mt=$(ansicolor -f GREEN)"
 export GREP_OPTIONS='--color=auto'
-export CLICOLOR=1
 
-# Colorful manpages
-# Inspired by http://github.com/anveo/dotfiles
-# and http://linuxtidbits.wordpress.com/2009/03/23/less-colors-for-man-pages/
-export LESS_TERMCAP_mb=$(echo -e "${SOLARIZED_COLOR_RED}") # 'blinking' text
-export LESS_TERMCAP_md=$(echo -e "${SOLARIZED_COLOR_CYAN}") # 'bold' text
-export LESS_TERMCAP_us=$(echo -e "${SOLARIZED_COLOR_GREEN}") # 'underlined' text
-export LESS_TERMCAP_ue=$(echo -e "${COLOR_NC}") # end 'underlined' text
-export LESS_TERMCAP_so=$'\E['"$(ansi_text -b -c GREEN -g WHITE)m" # 'standout' mode
-export LESS_TERMCAP_se=$(echo -e "${COLOR_NC}") # end 'standout' mode
-export LESS_TERMCAP_me=$(echo -e "${COLOR_NC}") # end appearance modes
+# Colors for less
+export LESS_TERMCAP_mb=$(termcolor -L -f RED)  # Blink
+export LESS_TERMCAP_md=$COLOR_BOLD_CYAN  # Bold
+export LESS_TERMCAP_so=$(termcolor -B -f BLACK -b CYAN)  # Standout
+export LESS_TERMCAP_us=$(termcolor -U -f GREEN)  # Underline
+export LESS_TERMCAP_me=$COLOR_NC  # End appearance mode
+export LESS_TERMCAP_se=$COLOR_NC  # End standout
+export LESS_TERMCAP_ue=$COLOR_NC  # End underline

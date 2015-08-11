@@ -1,3 +1,13 @@
+_prompt_escape() {
+    echo "\[${@}\]"
+}
+
+_prompt_color() {
+    local color="${1}"; shift
+
+    echo $(_prompt_escape "${!color}")${@}$(_prompt_escape "${COLOR_NC}")
+}
+
 color_prompt() {
     local usercolor hostcolor user host path symbol
 

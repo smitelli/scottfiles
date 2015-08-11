@@ -26,7 +26,7 @@
     ui = true
 
 [color "branch"]
-    current = yellow reverse
+    current = black yellow
     local = yellow
     remote = green
 
@@ -35,6 +35,11 @@
     frag = magenta bold
     old = red bold
     new = green bold
+
+[color "grep"]
+    filename = cyan
+    linenumber = cyan
+    match = green
 
 [color "status"]
     added = yellow

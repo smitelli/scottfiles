@@ -31,3 +31,21 @@ urldecode() {
         fi
     done
 }
+
+rgb2hex() {
+    perl -e '
+        (shift @ARGV) =~
+            /rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)/ &&
+                printf "#%02X%02X%02X\n", $1, $2, $3
+    ' \
+    "${@}"
+}
+
+hex2rgb() {
+    perl -e '
+        (shift @ARGV) =~
+            /#?([[:xdigit:]]{2})([[:xdigit:]]{2})([[:xdigit:]]{2})/ &&
+                printf "rgb(%d, %d, %d)\n", hex($1), hex($2), hex($3)
+    ' \
+    "${@}";
+}
