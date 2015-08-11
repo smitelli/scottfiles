@@ -1,0 +1,12 @@
+BoldAsFont=yes
+CursorType=block
+Font=Consolas
+FontHeight=10
+BoldAsColour=no
+AllowBlinking=yes
+CursorColour=0,192,0
+ScrollbackLines=100000
+Locale=en_US
+Charset=UTF-8
+Rows=25
+BellSound=yes
