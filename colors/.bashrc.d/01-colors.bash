@@ -138,7 +138,7 @@ fi
 # Colors for grep
 export GREP_COLOR=$(ansicolor -f GREEN)  # For OS X
 export GREP_COLORS="fn=$(ansicolor -B -f CYAN):ln=$(ansicolor -f CYAN):mt=$(ansicolor -f GREEN)"
-export GREP_OPTIONS='--color=auto'
+alias grep='grep --color=auto'
 
 # Colors for less
 export LESS_TERMCAP_mb=$(termcolor -L -f RED)  # Blink
