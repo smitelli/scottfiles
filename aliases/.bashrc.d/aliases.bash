@@ -20,7 +20,7 @@ serve() {
 
 # Find all files in the directory named by the first argument, or the cwd if
 # there are no arguments, and play each file in an mplayer playlist.
-mplayall() {
+$(has mplayer) && mplayall() {
     local dname
 
     if [[ "$1" != "" ]]; then
