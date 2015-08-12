@@ -1,4 +1,5 @@
-OLDIFS=$IFS
+local dbacct pwfile hname OLDIFS=$IFS
+
 IFS=','
 for dbacct in ssmitelli,vs ssmitelli,dc
 do
