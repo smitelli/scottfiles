@@ -35,11 +35,12 @@ ANSI_WHITE=7
 #   -R    Reverse the foreground and background colors.
 #   -C    Conceal the text. It will occupy space, but not be visible.
 #   -S    Add a strikethrough line to the text.
+# NOTE: Combining more than one text attribute is not yet supported. Only the
+# last one will apply.
 ansicolor() {
-    local OPTIND OPTERR key fgcolor bgcolor style="${ANSI_RESET}"
+    local style="${ANSI_RESET}" key fgcolor bgcolor
 
-    while getopts 'f:b:BIULRCS' opt
-    do
+    while getopts 'f:b:BIULRCS' opt; do
         case "${opt}" in
             f)
                 key="ANSI_${OPTARG}"
@@ -49,27 +50,13 @@ ansicolor() {
                 key="ANSI_${OPTARG}"
                 [[ -n "${!key}" ]] && bgcolor="${ANSI_BG}${!key}"
                 ;;
-            B)
-                style="${ANSI_BOLD}"
-                ;;
-            I)
-                style="${ANSI_ITALIC}"
-                ;;
-            U)
-                style="${ANSI_UNDERLINE}"
-                ;;
-            L)
-                style="${ANSI_BLINK}"
-                ;;
-            R)
-                style="${ANSI_REVERSE}"
-                ;;
-            C)
-                style="${ANSI_CONCEAL}"
-                ;;
-            S)
-                style="${ANSI_STRIKETHROUGH}"
-                ;;
+            B) style="${ANSI_BOLD}";;
+            I) style="${ANSI_ITALIC}";;
+            U) style="${ANSI_UNDERLINE}";;
+            L) style="${ANSI_BLINK}";;
+            R) style="${ANSI_REVERSE}";;
+            C) style="${ANSI_CONCEAL}";;
+            S) style="${ANSI_STRIKETHROUGH}";;
         esac
     done
 
@@ -109,8 +96,7 @@ COLOR_BOLD_WHITE=$(termcolor -B -f WHITE)
 colors() {
     local color
 
-    for color in ${!COLOR_*}
-    do
+    for color in ${!COLOR_*}; do
         echo -e "${!color}${color}${COLOR_NC}"
     done
 }
@@ -118,13 +104,11 @@ colors() {
 export CLICOLOR=1
 
 # Colors for ls
-if $(ls --color >/dev/null 2>&1)
-then
+if $(ls --color >/dev/null 2>&1); then
     # For non-OS X
     local dircolors_file="${HOME}/.dircolors/dircolors-solarized/dircolors.ansi-universal"
 
-    if (has dircolors && [[ -f "${dircolors_file}" && -r "${dircolors_file}" ]])
-    then
+    if (has dircolors && [[ -f "${dircolors_file}" && -r "${dircolors_file}" ]]); then
         eval $(dircolors "${dircolors_file}")
     fi
 

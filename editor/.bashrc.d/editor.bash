@@ -1,5 +1,4 @@
-if has vim
-then
+if has vim; then
     EDITOR=$(which vim)
 else
     EDITOR=$(which vi)

@@ -24,12 +24,10 @@ trysource() {
 # it returns non-zero and does nothing. The sourced script(s) may return any
 # values they want.
 trysource_all() {
-    local fname dname="$1"
+    local dname="$1" fname
 
-    if [[ -d "$dname" && -r "$dname" && -x "$dname" ]]
-    then
-        for fname in "$dname"/*
-        do
+    if [[ -d "$dname" && -r "$dname" && -x "$dname" ]]; then
+        for fname in "$dname"/*; do
             trysource "$fname"
         done
     else

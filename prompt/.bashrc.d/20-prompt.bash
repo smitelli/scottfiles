@@ -42,8 +42,7 @@ plain_prompt() {
     export PS1="[\u@\h:\W]${symbol} "
 }
 
-if [[ $CLICOLOR -eq 1 ]]
-then
+if [[ "$CLICOLOR" -eq 1 ]]; then
     export PROMPT_COMMAND=color_prompt
 else
     export PROMPT_COMMAND=plain_prompt
