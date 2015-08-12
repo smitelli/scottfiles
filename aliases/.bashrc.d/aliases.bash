@@ -1,5 +1,5 @@
-# One-word update of the scottfiles
-alias scottpull="pushd ${HOME}/.scottfiles; git pull; popd"
+# One-word update of the scottfiles.
+alias scottpull="pushd ${HOME}/.scottfiles; git pull; popd; exec bash"
 
 # Aliases for ls, distilled from a whole slew of Linux distros.
 alias ll='ls -al'
@@ -16,4 +16,18 @@ jcurl() {
 # `serve 3333` to serve on port 3333 instead of the built-in default. ^C quits.
 serve() {
     python -m SimpleHTTPServer "$@"
+}
+
+# Find all files in the directory named by the first argument, or the cwd if
+# there are no arguments, and play each file in an mplayer playlist.
+mplayall() {
+    local dname
+
+    if [[ "$1" != "" ]]; then
+        dname=$(cd "$1"; pwd)
+    else
+        dname=$(pwd)
+    fi
+
+    mplayer -playlist <(find "$dname" -type f)
 }
