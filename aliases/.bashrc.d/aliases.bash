@@ -1,3 +1,6 @@
+# One-word update of the scottfiles
+alias scottpull="pushd ${HOME}/.scottfiles; git pull; popd"
+
 # Aliases for ls, distilled from a whole slew of Linux distros.
 alias ll='ls -al'
 alias la='ls -A'
