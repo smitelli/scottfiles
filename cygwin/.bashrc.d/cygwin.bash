@@ -4,3 +4,6 @@
 #
 # This is only being set because, without it, the colors in `man` don't work.
 export GROFF_NO_SGR=1
+
+# Work around a TTY detection bug in Vagrant
+export VAGRANT_DETECTED_OS="$(uname)"
