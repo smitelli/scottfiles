@@ -3,6 +3,7 @@
     email = scott@smitelli.com
 
 [core]
+    filemode = false
     pager = less -SR
 
 [merge]
