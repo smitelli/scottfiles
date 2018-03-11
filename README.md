@@ -8,7 +8,7 @@ by [Scott Smitelli](mailto:scott@smitelli.com)
 Requirements
 ------------
 
-  * [GNU Stow](http://www.gnu.org/software/stow/)
+  * [GNU Stow](https://www.gnu.org/software/stow/)
 
 Usage
 -----
