@@ -1,3 +1,6 @@
+# Uncomment the following line if there is any question about what's going on.
+# SCOTTFILES_DEBUG=1
+
 # If not running interactively, don't do anything.
 case $- in
     *i*) ;;
@@ -14,9 +17,11 @@ has() {
 # does not exist or is unreadable, it returns non-zero and does nothing. The
 # sourced script may return any value it wants.
 trysource() {
+    [[ -v SCOTTFILES_DEBUG ]] && echo -n "trysource $1..."
     local fname="$1"
 
     [[ -f "$fname" && -r "$fname" ]] && . "$fname"
+    [[ -v SCOTTFILES_DEBUG ]] && echo ' done.'
 }
 
 # Checks if the provided directory exists, and if so, sources every file
