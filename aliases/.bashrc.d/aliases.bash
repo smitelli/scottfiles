@@ -8,6 +8,11 @@ alias ll='ls -al'
 alias la='ls -A'
 alias l='ls -C'
 
+# Wrapper for my preferred invocation of youtube-dl
+if has youtube-dl; then
+    alias ytdl='youtube-dl -o "%(uploader)s - %(title)s.%(ext)s"'
+fi
+
 # Handy JSON-formatting tool for when HTTPie is not available. Passes all args
 # directly into a "silent" curl and prints human-formatted JSON to stdout.
 jcurl() {
