@@ -1,3 +1,3 @@
 if has brew; then
-    trysource "$(brew --prefix)/etc/bash_completion"
+    trysource_all "$(brew --prefix)/etc/bash_completion.d"
 fi
