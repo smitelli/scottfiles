@@ -2,6 +2,12 @@
     name = Scott Smitelli
     email = scott@smitelli.com
 
+[alias]
+    log2 = log --graph --full-history --all --color --pretty=format:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x1b[33m[%an]%x1b[39m%x20%s"
+    log3 = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+    prune = fetch --prune
+    stash-all = stash save --include-untracked
+
 [core]
     filemode = false
     pager = less -SR
@@ -10,15 +16,14 @@
     conflictstyle = diff3
 
 [push]
-    default = current
+    default = simple
+    followTags = true
 
-[alias]
-    br = branch
-    ci = commit
-    co = checkout
-    df = diff
-    lg = log --oneline --graph --decorate
-    st = status
+[status]
+    showUntrackedFiles = all
+
+[transfer]
+    fsckobjects = true
 
 [color]
     branch = auto
