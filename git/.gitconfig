@@ -15,6 +15,9 @@
 [merge]
     conflictstyle = diff3
 
+[pull]
+    ff = only
+
 [push]
     default = simple
     followTags = true
