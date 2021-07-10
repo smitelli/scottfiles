@@ -11,6 +11,7 @@ alias l='ls -C'
 # Wrapper for my preferred invocation of youtube-dl
 if has youtube-dl; then
     alias ytdl='youtube-dl -o "%(uploader)s - %(title)s.%(ext)s"'
+    alias ytdl2='youtube-dl -o "%(uploader)s - %(title)s [%(id)s].%(ext)s"'
 fi
 
 # Handy JSON-formatting tool for when HTTPie is not available. Passes all args
