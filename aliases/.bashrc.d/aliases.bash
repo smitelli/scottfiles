@@ -23,7 +23,11 @@ jcurl() {
 # Start a web server whose document root is the current working directory. Use
 # `serve 3333` to serve on port 3333 instead of the built-in default. ^C quits.
 serve() {
-    python -m SimpleHTTPServer "$@"
+    if $(has python3); then
+        python3 -m http.server "$@"
+    else
+        python -m SimpleHTTPServer "$@"
+    fi
 }
 
 # Find all files in the directory named by the first argument, or the cwd if
