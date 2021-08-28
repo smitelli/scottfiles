@@ -8,8 +8,11 @@ alias ll='ls -al'
 alias la='ls -A'
 alias l='ls -C'
 
-# Wrapper for my preferred invocation of yt-dlp
+# Wrapper for my preferred invocation of youtube-dl/yt-dlp
 if has youtube-dl; then
+    alias ytdl='youtube-dl -o "%(uploader)s - %(title)s.%(ext)s"'
+    alias ytdl2='youtube-dl -o "%(uploader)s - %(title)s [%(id)s].%(ext)s"'
+elif has yt-dlp; then
     alias ytdl='yt-dlp -o "%(uploader)s - %(title)s.%(ext)s"'
     alias ytdl2='yt-dlp -o "%(uploader)s - %(title)s [%(id)s].%(ext)s"'
 fi
