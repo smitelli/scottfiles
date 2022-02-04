@@ -54,6 +54,3 @@
     added = yellow
     changed = green
     untracked = cyan
-
-[includeIf "gitdir:~/Code/"]
-    path = ~/Code/.gitconfig-sstk
