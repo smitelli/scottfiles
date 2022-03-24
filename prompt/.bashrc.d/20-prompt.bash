@@ -1,18 +1,13 @@
-_prompt_escape() {
-    echo "\[${@}\]"
-}
-
 _prompt_color() {
     local color="${1}"; shift
 
-    echo $(_prompt_escape "${!color}")${@}$(_prompt_escape "${COLOR_NC}")
+    echo "\[${!color}\]${@}\[${COLOR_NC}\]"
 }
 
 color_prompt() {
     local usercolor hostcolor user host path symbol
 
-    if [[ $EUID -eq 0 ]]
-    then
+    if [[ $EUID -eq 0 ]]; then
         usercolor=$COLOR_RED
         symbol='#'
     else
@@ -26,24 +21,23 @@ color_prompt() {
     host=$(_prompt_color hostcolor '\h')
     path=$(_prompt_color COLOR_CYAN '\W')
 
-    export PS1="[${user}@${host}:${path}]${symbol} "
+    echo "[${user}@${host}:${path}]${symbol}"
 }
 
 plain_prompt() {
     local symbol
 
-    if [[ $EUID -eq 0 ]]
-    then
+    if [[ $EUID -eq 0 ]]; then
         symbol='#'
     else
         symbol='$'
     fi
 
-    export PS1="[\u@\h:\W]${symbol} "
+    echo "[\u@\h:\W]${symbol}"
 }
 
 if [[ "$CLICOLOR" -eq 1 ]]; then
-    export PROMPT_COMMAND=color_prompt
+    export PS1="$(color_prompt) "
 else
-    export PROMPT_COMMAND=plain_prompt
+    export PS1="$(plain_prompt) "
 fi
