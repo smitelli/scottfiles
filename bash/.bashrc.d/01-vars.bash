@@ -41,3 +41,11 @@ shopt -s histappend
 #       commands are saved to the history with embedded newlines
 #       rather than using semicolon separators where possible.
 shopt -u lithist
+
+# Silence macOS Bash shell deprecation noise.
+# https://support.apple.com/en-us/HT208050
+# > If you invoke the bash shell while macOS Catalina is configured to use a
+# > different shell, you'll see a message that the default interactive shell is
+# > now zsh. To silence this warning, you can add this command to
+# > ~/.bash_profile or ~/.profile:
+export BASH_SILENCE_DEPRECATION_WARNING=1
