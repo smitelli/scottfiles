@@ -1,0 +1,35 @@
+#!/usr/local/bin/python3
+
+import os
+import subprocess
+import sys
+from pathlib import Path
+
+ROOT = os.environ['SCOTTFILES_WORKTOOLS_GIT_ROOT']
+
+
+def get_all_git_dirs(root):
+    return subprocess.check_output([
+        'find', str(root), '-maxdepth', '3', '-name', '.git', '-type', 'd'
+    ]).decode().strip().split('\n')
+
+
+def call_prefixed(command, cwd=None):
+    proc = subprocess.Popen(command, cwd=cwd, stdout=subprocess.PIPE, stderr=sys.stderr)
+    while proc.returncode is None:
+        for output in proc.communicate():
+            if not output:
+                continue
+            for line in output.decode(errors='replace').strip().split('\n'):
+                print(f'[{cwd}] {line}')
+
+
+def ggrep(top_dir, grep_args):
+    for gd in get_all_git_dirs(top_dir):
+        call_prefixed(
+            ['git', '--no-pager', 'grep'] + grep_args,
+            cwd=Path(gd).parent)
+
+
+if __name__ == '__main__':
+    ggrep(ROOT, sys.argv[1:])

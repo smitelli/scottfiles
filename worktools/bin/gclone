@@ -1,0 +1,106 @@
+#!/usr/local/bin/python3
+
+import json
+import os
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+GITHUB_ORG = os.environ['SCOTTFILES_WORKTOOLS_GITHUB_ORG']
+CLONE_ROOT = Path(os.environ['SCOTTFILES_WORKTOOLS_GIT_ROOT'])
+WIKI_SUBDIR = '.github-wiki'
+WIKI_DEFAULT_BRANCH = 'master'
+
+# To clone wikis (or find newly-created ones) set both of these `False`
+SKIP_WIKI_PROBE = True
+RAISE_ON_ERROR = True
+
+# To force refreshes on archived repos set this `True`
+FORCE_ARCHIVE_PULL = False
+
+
+def needs_new_clone(name):
+    return not (CLONE_ROOT / name).is_dir()
+
+
+def echo_and_call(command, cwd=None, raise_on_error=RAISE_ON_ERROR):
+    print(f'$ {" ".join(command)}')
+
+    try:
+        subprocess.check_call(command, cwd=cwd, stdout=sys.stdout, stderr=sys.stderr)
+    except subprocess.CalledProcessError as exc:
+        if raise_on_error:
+            raise
+        print(exc)
+
+
+def get_repo_list(organization, limit=10000):
+    json_data = json.loads(subprocess.check_output([
+        'gh', 'repo', 'list', str(organization),
+        '--limit', str(limit),
+        '--json', 'name,sshUrl,defaultBranchRef,isArchived,isEmpty,hasWikiEnabled']))
+
+    return [{
+        'name': d['name'],
+        'url': d['sshUrl'],
+        'default_branch': d['defaultBranchRef']['name'],
+        'is_archived': (False if FORCE_ARCHIVE_PULL else bool(d['isArchived'])),
+        'has_content': not bool(d['isEmpty']),
+        'has_wiki': bool(d['hasWikiEnabled'])
+    } for d in json_data]
+
+
+def get_wiki_list(repo_list):
+    wiki_list = [{
+        'name': f'{WIKI_SUBDIR}/{d["name"]}',
+        'url': re.sub(r'\.git$', '.wiki.git', d['url']),
+        'default_branch': WIKI_DEFAULT_BRANCH,
+        'is_archived': False,
+        'has_content': True,
+        'has_wiki': False
+    } for d in filter(lambda d: d['has_wiki'], repo_list)]
+
+    if SKIP_WIKI_PROBE:
+        wiki_list = filter(lambda d: not needs_new_clone(d['name']), wiki_list)
+
+    return wiki_list
+
+
+def clone_repo(name, url):
+    echo_and_call(['git', 'clone', '--recurse-submodules', url, str(CLONE_ROOT / name)])
+
+
+def maintain_repo(name, default_branch):
+    echo_and_call(['git', 'fetch', '--all', '--prune'], cwd=CLONE_ROOT / name)
+
+    # Failure is acceptable if working tree is not clean, etc.
+    echo_and_call(['git', 'checkout', default_branch], cwd=CLONE_ROOT / name, raise_on_error=False)
+
+    echo_and_call(['git', 'pull'], cwd=CLONE_ROOT / name)
+
+
+def gclone():
+    print('Please wait; hammering on the GitHub API...', end='', flush=True)
+    repo_data = get_repo_list(GITHUB_ORG)
+    print(' done.')
+
+    repo_data += get_wiki_list(repo_data)
+    num_repos = len(repo_data)
+
+    for i, repo in enumerate(repo_data):
+        print()
+        print('#')
+        print(f'# {i + 1}/{num_repos}: {GITHUB_ORG}/{repo["name"]}')
+        print('#')
+
+        if needs_new_clone(repo['name']):
+            clone_repo(repo['name'], repo['url'])
+        elif repo['has_content'] and not repo['is_archived']:
+            maintain_repo(repo['name'], repo['default_branch'])
+        else:
+            print('This repo should not be cloned/pulled.')
+
+
+if __name__ == '__main__':
+    gclone()
