@@ -1,5 +1,6 @@
 #!/usr/local/bin/python3
 
+import argparse
 import json
 import os
 import re
@@ -7,30 +8,42 @@ import subprocess
 import sys
 from pathlib import Path
 
-GITHUB_ORG = os.environ['SCOTTFILES_WORKTOOLS_GITHUB_ORG']
-CLONE_ROOT = Path(os.environ['SCOTTFILES_WORKTOOLS_GIT_ROOT'])
-WIKI_SUBDIR = '.github-wiki'
-WIKI_DEFAULT_BRANCH = 'master'
 
-# To clone wikis (or find newly-created ones) set both of these `False`
-SKIP_WIKI_PROBE = True
-RAISE_ON_ERROR = True
+class GCloneConfig:
+    clone_root = Path(os.environ['SCOTTFILES_WORKTOOLS_GIT_ROOT'])
+    github_org = os.environ['SCOTTFILES_WORKTOOLS_GITHUB_ORG']
+    wiki_subdir = '.github-wiki'
+    wiki_default_branch = 'master'
 
-# To force refreshes on archived repos set this `True`
-FORCE_ARCHIVE_PULL = False
+    def parse_args(self, args):
+        for a in ('force_archive_pull', 'ignore_errors', 'probe_wikis'):
+            setattr(self, a, getattr(args, a))
+
+        if self.probe_wikis:
+            print('NOTICE: Git errors are ignored when probing for wikis.')
+            self.ignore_errors = True
+
+
+config = GCloneConfig()
 
 
 def needs_new_clone(name):
-    return not (CLONE_ROOT / name).is_dir()
+    return not (config.clone_root / name).is_dir()
 
 
-def echo_and_call(command, cwd=None, raise_on_error=RAISE_ON_ERROR):
-    print(f'$ {" ".join(command)}')
+def echo_and_call(command, cwd=None, shell=False, ignore_errors=None):
+    if ignore_errors is None:
+        ignore_errors = config.ignore_errors
+
+    if type(command) == list:
+        print(f'$ {" ".join(command)}')
+    else:
+        print(f'$ {command}')
 
     try:
-        subprocess.check_call(command, cwd=cwd, stdout=sys.stdout, stderr=sys.stderr)
+        subprocess.check_call(command, cwd=cwd, shell=shell, stdout=sys.stdout, stderr=sys.stderr)
     except subprocess.CalledProcessError as exc:
-        if raise_on_error:
+        if not ignore_errors:
             raise
         print(exc)
 
@@ -45,7 +58,7 @@ def get_repo_list(organization, limit=10000):
         'name': d['name'],
         'url': d['sshUrl'],
         'default_branch': d['defaultBranchRef']['name'],
-        'is_archived': (False if FORCE_ARCHIVE_PULL else bool(d['isArchived'])),
+        'is_archived': (False if config.force_archive_pull else bool(d['isArchived'])),
         'has_content': not bool(d['isEmpty']),
         'has_wiki': bool(d['hasWikiEnabled'])
     } for d in json_data]
@@ -53,36 +66,46 @@ def get_repo_list(organization, limit=10000):
 
 def get_wiki_list(repo_list):
     wiki_list = [{
-        'name': f'{WIKI_SUBDIR}/{d["name"]}',
+        'name': f'{config.wiki_subdir}/{d["name"]}',
         'url': re.sub(r'\.git$', '.wiki.git', d['url']),
-        'default_branch': WIKI_DEFAULT_BRANCH,
+        'default_branch': config.wiki_default_branch,
         'is_archived': False,
         'has_content': True,
         'has_wiki': False
     } for d in filter(lambda d: d['has_wiki'], repo_list)]
 
-    if SKIP_WIKI_PROBE:
+    if not config.probe_wikis:
         wiki_list = filter(lambda d: not needs_new_clone(d['name']), wiki_list)
 
     return wiki_list
 
 
 def clone_repo(name, url):
-    echo_and_call(['git', 'clone', '--recurse-submodules', url, str(CLONE_ROOT / name)])
+    echo_and_call(['git', 'clone', '--recurse-submodules', url, str(config.clone_root / name)])
 
 
 def maintain_repo(name, default_branch):
-    echo_and_call(['git', 'fetch', '--all', '--prune'], cwd=CLONE_ROOT / name)
+    echo_and_call(['git', 'fetch', '--all', '--prune'], cwd=config.clone_root / name)
 
     # Failure is acceptable if working tree is not clean, etc.
-    echo_and_call(['git', 'checkout', default_branch], cwd=CLONE_ROOT / name, raise_on_error=False)
+    echo_and_call(['git', 'checkout', default_branch], cwd=config.clone_root / name, ignore_errors=True)
 
-    echo_and_call(['git', 'pull'], cwd=CLONE_ROOT / name)
+    echo_and_call(['git', 'pull'], cwd=config.clone_root / name)
+
+    # https://stackoverflow.com/a/56026209
+    echo_and_call(
+        f'git checkout -q {default_branch} && '
+        'git for-each-ref refs/heads/ "--format=%(refname:short)" | '
+        'while read BRANCH; do '
+        f'mergeBase=$(git merge-base {default_branch} $BRANCH) && '
+        f'[[ $(git cherry {default_branch} $(git commit-tree $(git rev-parse "$BRANCH^{{tree}}") '
+        '-p $mergeBase -m _)) == "-"* ]] && git branch -D $BRANCH || true; '
+        'done', cwd=config.clone_root / name, shell=True)
 
 
 def gclone():
     print('Please wait; hammering on the GitHub API...', end='', flush=True)
-    repo_data = get_repo_list(GITHUB_ORG)
+    repo_data = get_repo_list(config.github_org)
     print(' done.')
 
     repo_data += get_wiki_list(repo_data)
@@ -91,7 +114,7 @@ def gclone():
     for i, repo in enumerate(repo_data):
         print()
         print('#')
-        print(f'# {i + 1}/{num_repos}: {GITHUB_ORG}/{repo["name"]}')
+        print(f'# {i + 1}/{num_repos}: {config.github_org}/{repo["name"]}')
         print('#')
 
         if needs_new_clone(repo['name']):
@@ -103,4 +126,11 @@ def gclone():
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Big bad Git organization clone/pull tool.')
+    parser.add_argument('-f', '--force-archive-pull', action='store_true', help='force-pull repos marked as archived')
+    parser.add_argument('-i', '--ignore-errors', action='store_true', help='ignore (some) error responses from Git')
+    parser.add_argument('-p', '--probe-wikis', action='store_true', help='probe for newly-created wikis on each repo')
+
+    args = parser.parse_args()
+    config.parse_args(args)
     gclone()
