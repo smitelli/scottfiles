@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import argparse
+import functools
 import json
 import os
 import re
@@ -27,10 +28,28 @@ class GCloneConfig:
 config = GCloneConfig()
 
 
+def retry(func=None, *, count=2):
+    def deco_retry(f):
+        @functools.wraps(f)
+        def wrap_retry(*a, **k):
+            for _ in range(count):
+                try:
+                    return f(*a, **k)
+                except subprocess.CalledProcessError:
+                    continue
+        return wrap_retry
+
+    if func is None:
+        return deco_retry
+    else:
+        return deco_retry(func)
+
+
 def needs_new_clone(name):
     return not (config.clone_root / name).is_dir()
 
 
+@retry
 def echo_and_call(command, cwd=None, shell=False, ignore_errors=None):
     if ignore_errors is None:
         ignore_errors = config.ignore_errors
@@ -48,6 +67,7 @@ def echo_and_call(command, cwd=None, shell=False, ignore_errors=None):
         print(exc)
 
 
+@retry
 def get_repo_list(organization, limit=10000):
     json_data = json.loads(subprocess.check_output([
         'gh', 'repo', 'list', str(organization),
