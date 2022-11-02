@@ -31,7 +31,7 @@ jcurl() {
 # Start a web server whose document root is the current working directory. Use
 # `serve 3333` to serve on port 3333 instead of the built-in default. ^C quits.
 serve() {
-    if $(has python3); then
+    if has python3; then
         python3 -m http.server --bind 0.0.0.0 "$@"
     else
         python -m SimpleHTTPServer "$@"
@@ -40,7 +40,7 @@ serve() {
 
 # Find all files in the directory named by the first argument, or the cwd if
 # there are no arguments, and play each file in an mplayer playlist.
-$(has mplayer) && mplayall() {
+has mplayer && mplayall() {
     local dname
 
     if [[ "$1" != "" ]]; then
