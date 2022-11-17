@@ -7,6 +7,3 @@ export GROFF_NO_SGR=1
 
 # Work around a TTY detection bug in Vagrant
 export VAGRANT_DETECTED_OS="$(uname)"
-
-# Work around an AWS SDK bug in Packer
-export AWS_SHARED_CREDENTIALS_FILE="$(cygpath -w $HOME/.aws/credentials)"
