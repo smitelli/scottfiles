@@ -1,0 +1,93 @@
+{
+	"always_show_minimap_viewport": true,
+	"auto_complete_commit_on_tab": true,
+	"bold_folder_labels": true,
+	"caret_style": "smooth",
+	"close_windows_when_empty": false,
+	"color_scheme": "Packages/Theme - Alpenglow/Alpenglow-monokai.tmTheme",
+	"copy_with_empty_selection": false,
+	"default_line_ending": "unix",
+	"draw_white_space": [
+		"all"
+	],
+	"ensure_newline_at_eof_on_save": true,
+	"file_exclude_patterns": [
+		"*.a",
+		"*.class",
+		"*.db",
+		"*.dll",
+		"*.dylib",
+		"*.exe",
+		"*.idb",
+		"*.lib",
+		"*.ncb",
+		"*.o",
+		"*.obj",
+		"*.pdb",
+		"*.psd",
+		"*.pyc",
+		"*.pyo",
+		"*.sdf",
+		"*.so",
+		"*.sublime-workspace",
+		"*.suo",
+		".DS_Store",
+		".coverage",
+		".directory",
+		"desktop.ini"
+	],
+	"find_selected_text": true,
+	"focus_on_file_drop": true,
+	"folder_exclude_patterns": [
+		"*.egg-info",
+		".Trash",
+		".Trash-*",
+		".git",
+		".hg",
+		".pytest*",
+		".svn",
+		".vagrant",
+		"CVS",
+		"__pycache__"
+	],
+	"font_face": "Consolas",
+	"font_options": [
+		"directwrite",
+		"dwrite_cleartype_natural"
+	],
+	"font_size": 10,
+	"hardware_acceleration": "none",
+	"highlight_line": true,
+	"ignored_packages": [
+		"Markdown",
+		"Vintage"
+	],
+	"indent_guide_options": [
+		"draw_active",
+		"draw_normal",
+		"solid"
+	],
+	"margin": 0,
+	"mini_diff": false,
+	"mouse_wheel_switches_tabs": false,
+	"move_to_limit_on_up_down": false,
+	"native_tabs": "disabled",
+	"open_files_in_new_window": "never",
+	"preview_on_click": "only_left",
+	"ruler_style": "stippled",
+	"rulers": [
+		80,
+		120
+	],
+	"scroll_past_end": true,
+	"show_encoding": true,
+	"show_full_path": true,
+	"show_git_status": false,
+	"show_line_endings": true,
+	"show_rel_path": true,
+	"tabs_padding_small": true,
+	"tabs_small": true,
+	"theme": "Alpenglow-orange.sublime-theme",
+	"translate_tabs_to_spaces": true,
+	"trim_trailing_white_space_on_save": "not_on_caret"
+}

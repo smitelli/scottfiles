@@ -1,0 +1,32 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"Alignment",
+		"C Improved",
+		"Color Highlighter",
+		"CoolBase64",
+		"FileDiffs",
+		"Git",
+		"HexViewer",
+		"INI",
+		"Jinja2",
+		"MarkdownEditing",
+		"NASM x86 Assembly",
+		"nginx",
+		"Package Control",
+		"Pretty JSON",
+		"SaltStack-related syntax highlighting and snippets",
+		"Sass",
+		"SideBarEnhancements",
+		"SublimeLinter",
+		"SublimeLinter-annotations",
+		"SublimeLinter-flake8",
+		"Terraform",
+		"Theme - Afterglow",
+		"Theme - Alpenglow",
+	],
+}
