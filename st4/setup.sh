@@ -12,7 +12,7 @@ if [ -d "$WINPATH" ]; then
 elif [ -d "$MACPATH" ]; then
     SUBLIME_PATH="$MACPATH"
     PLATFORM=mac
-    LINK_CMD='ln -srf'
+    LINK_CMD='ln -sf'
 else
     echo 'Could not find the Sublime Text data directory.'
     echo 'Make sure Sublime Text has been started at least once or fix this script.'
