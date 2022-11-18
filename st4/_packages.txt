@@ -1,0 +1,54 @@
+GIT: {
+    // Windows Setup Notes
+    // ===================
+    // Relies on Cygwin/Git being installed correctly. Not the fastest.
+    "git_command": "C:\\Cygwin\\bin\\git.exe",
+    "gitignore_sync": true
+}
+
+MARKDOWN: {
+    "extensions":
+    [
+        "md",
+        "mdown"
+    ],
+    "highlight_line": false,
+    "line_numbers": false,
+    "line_padding_bottom": 2,
+    "line_padding_top": 2,
+    "rulers": [77, 80, 120],
+    "mde.auto_fold_link.enabled": false,
+    "color_scheme": "MarkdownEditor-Dark.sublime-color-scheme",
+}
+
+PRETTY JSON: {
+    "indent": 4,
+    "keep_arrays_single_line": false,
+    "max_arrays_line_length": 80
+}
+
+SUBLIME LINTER: {
+    "no_column_highlights_line": true,
+    "linters": {
+        "annotations": {
+            //"errors": [],
+            "warnings": ["FIXME", "HACK", "TODO", "@todo", "WTF", "XXX"]
+        },
+        "flake8": {
+            // Windows Setup Notes
+            // ===================
+            // Use Python 3.6 installer, set "install for all users" option.
+            // C:\Program Files\Python37\Scripts\pip install flake8
+            "python": "D:\\ssmitelli\\AppData\\Local\\Programs\\Python\\Python38\\python.exe",
+            "excludes": [
+                "*/.venv/*",
+                "*/.virtualenv/*"
+            ],
+            "args": [
+                "--ignore", "",
+                "--max-complexity", "10",
+                "--max-line-length", "120"
+            ]
+        }
+    }
+}
