@@ -25,3 +25,9 @@ curl -fL 'https://packagecontrol.io/Package%20Control.sublime-package' -o "${SUB
 # Install individual preference files into the User package
 ${LINK_CMD} "${SELF_DIR}/Package Control.sublime-settings" "${SUBLIME_PATH}/Packages/User/"
 ${LINK_CMD} "${SELF_DIR}/Preferences.${PLATFORM}.sublime-settings" "${SUBLIME_PATH}/Packages/User/Preferences.sublime-settings"
+
+echo 'All files have been installed. Startup may require a bit of a dance:'
+echo '1. Start Sublime Text, ignore any visual glitches, and dismiss all errors.'
+echo '2. Let it think about itself for a few minutes, then quit Sublime Text.'
+echo '3. `git reset --hard HEAD` in this repository.'
+echo '4. Restart Sublime Text, enter the license if necessary, and enjoy.'
