@@ -26,7 +26,6 @@
 		"SublimeLinter-annotations",
 		"SublimeLinter-flake8",
 		"Terraform",
-		"Theme - Afterglow",
 		"Theme - Alpenglow",
 	],
 }
