@@ -1,0 +1,16 @@
+{
+	"extensions": [
+		"md",
+		"mdown"
+	],
+	"mde.auto_fold_link.enabled": false,
+	"highlight_line": false,
+	"line_numbers": false,
+	"line_padding_bottom": 2,
+	"line_padding_top": 2,
+	"rulers": [
+		77,
+		80,
+		120
+	]
+}

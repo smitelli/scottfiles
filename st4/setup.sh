@@ -23,8 +23,10 @@ fi
 curl -fL 'https://packagecontrol.io/Package%20Control.sublime-package' -o "${SUBLIME_PATH}/Installed Packages/Package Control.sublime-package"
 
 # Install individual preference files into the User package
+${LINK_CMD} "${SELF_DIR}/Markdown.sublime-settings" "${SUBLIME_PATH}/Packages/User/"
 ${LINK_CMD} "${SELF_DIR}/Package Control.sublime-settings" "${SUBLIME_PATH}/Packages/User/"
 ${LINK_CMD} "${SELF_DIR}/Preferences.${PLATFORM}.sublime-settings" "${SUBLIME_PATH}/Packages/User/Preferences.sublime-settings"
+${LINK_CMD} "${SELF_DIR}/Pretty JSON.sublime-settings" "${SUBLIME_PATH}/Packages/User/"
 
 echo 'All files have been installed. Startup may require a bit of a dance:'
 echo '1. Start Sublime Text, ignore any visual glitches, and dismiss all errors.'

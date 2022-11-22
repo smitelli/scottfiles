@@ -6,27 +6,6 @@ GIT: {
     "gitignore_sync": true
 }
 
-MARKDOWN: {
-    "extensions":
-    [
-        "md",
-        "mdown"
-    ],
-    "highlight_line": false,
-    "line_numbers": false,
-    "line_padding_bottom": 2,
-    "line_padding_top": 2,
-    "rulers": [77, 80, 120],
-    "mde.auto_fold_link.enabled": false,
-    "color_scheme": "MarkdownEditor-Dark.sublime-color-scheme",
-}
-
-PRETTY JSON: {
-    "indent": 4,
-    "keep_arrays_single_line": false,
-    "max_arrays_line_length": 80
-}
-
 SUBLIME LINTER: {
     "no_column_highlights_line": true,
     "linters": {
@@ -50,5 +29,47 @@ SUBLIME LINTER: {
                 "--max-line-length", "120"
             ]
         }
+    }
+}
+
+LINTER v2: {
+    "sublimelinter_delay": 0.5,
+
+    "jshint_options":
+    {
+        "predef":
+        [
+            "describe",
+            "it",
+            "before",
+            "after",
+            "beforeEach",
+            "afterEach"
+        ],
+
+        // ENFORCING
+        "curly": true,
+        "eqeqeq": true,
+        "forin": true,
+        "immed": true,
+        "latedef": "nofunc",
+        "newcap": true,
+        "noarg": true,
+        "nonew": true,
+        "undef": true,
+        "unused": true,
+        "strict": false,
+        "trailing": true,
+        "maxlen": 120,
+
+        // RELAXING
+        "evil": false,
+        "expr": true,
+        "sub": false,
+
+        // ENVIRONMENTS
+        "browser": true,
+        "node": true,
+        "wsh": false
     }
 }
