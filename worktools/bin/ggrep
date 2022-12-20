@@ -21,7 +21,7 @@ def call_prefixed(command, cwd=None):
             if not output:
                 continue
             for line in output.decode(errors='replace').strip().split('\n'):
-                print(f'[{cwd}] {line}')
+                print(f'{cwd}{os.sep}{line}')
 
 
 def ggrep(top_dir, grep_args):
