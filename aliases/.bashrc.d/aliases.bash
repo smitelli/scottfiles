@@ -38,6 +38,18 @@ serve() {
     fi
 }
 
+# Forcibly stop and remove every container, volume, image, network, and cached
+# item it holds. This is a terribly destructive "burn down the world" function
+# that should only be used when it is actually desired to burn down the world.
+has docker && docker-zap () {
+    containers=$(docker ps --all --quiet)
+    if [ -n "$containers" ]; then
+        docker stop "$containers"
+    fi
+
+    docker system prune --all --volumes
+}
+
 # Find all files in the directory named by the first argument, or the cwd if
 # there are no arguments, and play each file in an mplayer playlist.
 has mplayer && mplayall() {
