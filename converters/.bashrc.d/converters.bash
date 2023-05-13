@@ -1,6 +1,6 @@
 # Percent-encodes the first argument according to RFC 3986. All characters
 # except 0-9, A-Z, a-z, and -._~ are encoded.
-urlencode() {
+rawurlencode() {
     local c LANG=C arg="$1" i=0
     while [ "$i" -lt "${#arg}" ]; do
         c=${arg:$i:1}
@@ -11,12 +11,26 @@ urlencode() {
         fi
         i=$((i+1))
     done
+    echo
+}
+
+# Wraps a call to rawurlencode(), but additionally percent-escapes tilde (~) to
+# the percent-encoded equivalent. More significantly, uses the application/
+# x-www-form-urlencoded convention of plus signs (+) to represent spaces.
+urlencode() {
+    local arg="$1"
+
+    arg=$(rawurlencode "$arg")
+    arg=$(echo "$arg" | sed "s/~/%7E/g")
+    arg=$(echo "$arg" | sed "s/%20/+/g")
+
+    echo "$arg"
 }
 
 # Decodes any percent-encoded characters in the first argument. Can fully decode
 # an RFC 3986 string, plus any additional characters that may have been
 # erroneously encoded.
-urldecode() {
+rawurldecode() {
     local c LANG=C arg="$1" i=0
     while [ "$i" -lt "${#arg}" ]; do
         c[0]=${arg:$i:1}
@@ -30,6 +44,17 @@ urldecode() {
             i=$((i+1))
         fi
     done
+    echo
+}
+
+# Wraps a call to rawurldecode(), but additionally decodes plus signs (+) to
+# space characters. This reverses application/x-www-form-urlencoded messages.
+urldecode() {
+    local arg="$1"
+
+    arg=$(echo "$arg" | tr "+" " ")
+
+    rawurldecode "$arg"
 }
 
 # Converts the first argument from an 'rgb(11, 22, 33)' color format into a
