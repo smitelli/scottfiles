@@ -22,6 +22,42 @@ if has kubectl; then
     alias kevents="kubectl get events --sort-by='.lastTimestamp'"
 fi
 
+# Lossless in-place rotation of all image/video files supported by exiftool.
+# Usage: rotate_[c]cw <filename>
+# CCW = counterclockwise in 90 degree steps, CW = clockwise.
+if has exiftool; then
+    rotate_ccw() {
+        case $(exiftool -Rotation "$1" | grep -Eo '[0-9]+') in
+            0)   rot=90  ;;
+            90)  rot=180 ;;
+            180) rot=270 ;;
+            270) rot=0   ;;
+            *)
+                echo "$FUNCNAME: Could not parse EXIF Rotation tag from \"$1\"" >&2
+                return 1
+                ;;
+        esac
+
+        exiftool -ignoreMinorErrors -overwrite_original -preserve -Rotation=$rot "$1"
+    }
+
+    rotate_cw() {
+        case $(exiftool -Rotation "$1" | grep -Eo '[0-9]+') in
+            0)   rot=270 ;;
+            90)  rot=0   ;;
+            180) rot=90  ;;
+            270) rot=180 ;;
+            *)
+                echo "$FUNCNAME: Could not parse EXIF Rotation tag from \"$1\"" >&2
+                return 1
+                ;;
+        esac
+
+        exiftool -ignoreMinorErrors -overwrite_original -preserve -Rotation=$rot "$1"
+    }
+fi
+
+
 # Handy JSON-formatting tool for when HTTPie is not available. Passes all args
 # directly into a "silent" curl and prints human-formatted JSON to stdout.
 jcurl() {
