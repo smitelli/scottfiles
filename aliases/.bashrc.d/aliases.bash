@@ -17,9 +17,10 @@ elif has yt-dlp; then
     alias ytdl2='yt-dlp -o "%(uploader)s - %(title)s [%(id)s].%(ext)s"'
 fi
 
-# Why this isn't the default (or at least made quicker to type) is beyond me.
 if has kubectl; then
+    # Why this isn't the default (or at least made quicker to type) is beyond me
     alias kevents="kubectl get events --sort-by='.lastTimestamp'"
+    alias kdrain="kubectl drain --delete-emptydir-data --ignore-daemonsets"
 fi
 
 # Lossless in-place rotation of all image/video files supported by exiftool.
