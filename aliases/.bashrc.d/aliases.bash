@@ -13,8 +13,8 @@ if has youtube-dl; then
     alias ytdl='youtube-dl -o "%(uploader)s - %(title)s.%(ext)s"'
     alias ytdl2='youtube-dl -o "%(uploader)s - %(title)s [%(id)s].%(ext)s"'
 elif has yt-dlp; then
-    alias ytdl='yt-dlp -o "%(uploader)s - %(title)s.%(ext)s"'
-    alias ytdl2='yt-dlp -o "%(uploader)s - %(title)s [%(id)s].%(ext)s"'
+    alias ytdl='yt-dlp -o "%(uploader)s - %(title).150s.%(ext)s"'
+    alias ytdl2='yt-dlp -o "%(uploader)s - %(title).150s [%(id)s].%(ext)s"'
 fi
 
 if has kubectl; then
