@@ -8,13 +8,41 @@ alias ll='ls -al'
 alias la='ls -A'
 alias l='ls -C'
 
+# Allow .. through ........... (yup!) to cd up some number of directories.
+for i in {1..10}; do
+    spaces=$(printf "%${i}s")
+    alias "${spaces// /.}."="cd ${spaces// /../}"
+done
+
+# Diff two heavily-minified HTML files. (Useful for figuring out what's actually
+# causing differences between Hugo output runs.)
+htmldiff() {
+    diff --side-by-side --width=$COLUMNS <(sed -E 's:(<[^>]+?>):\n\1\n:g' < "$1") <(sed -E 's:(<[^>]+?>):\n\1\n:g' < "$2")
+}
+
+# Handy JSON-formatting tool for when HTTPie is not available. Passes all args
+# directly into a "silent" curl and prints human-formatted JSON to stdout.
+jcurl() {
+    curl -s "$@" | python -m json.tool
+}
+
+# Start a web server whose document root is the current working directory. Use
+# `serve 3333` to serve on port 3333 instead of the built-in default. ^C quits.
+serve() {
+    if has python3; then
+        python3 -m http.server --bind 0.0.0.0 "$@"
+    else
+        python -m SimpleHTTPServer "$@"
+    fi
+}
+
 # Wrapper for my preferred invocation of youtube-dl/yt-dlp.
-if has youtube-dl; then
-    alias ytdl='youtube-dl -o "%(uploader)s - %(title)s.%(ext)s"'
-    alias ytdl2='youtube-dl -o "%(uploader)s - %(title)s [%(id)s].%(ext)s"'
-elif has yt-dlp; then
+if has yt-dlp; then
     alias ytdl='yt-dlp -o "%(uploader)s - %(title).150s.%(ext)s"'
     alias ytdl2='yt-dlp -o "%(uploader)s - %(title).150s [%(id)s].%(ext)s"'
+elif has youtube-dl; then
+    alias ytdl='youtube-dl -o "%(uploader)s - %(title)s.%(ext)s"'
+    alias ytdl2='youtube-dl -o "%(uploader)s - %(title)s [%(id)s].%(ext)s"'
 fi
 
 if has kubectl; then
@@ -57,28 +85,6 @@ if has exiftool; then
         exiftool -ignoreMinorErrors -overwrite_original -preserve -Rotation=$rot "$1"
     }
 fi
-
-# Diff two heavily-minified HTML files. (Useful for figuring out what's actually
-# causing differences between Hugo output runs.)
-htmldiff() {
-    diff --side-by-side --width=$COLUMNS <(sed -E 's:(<[^>]+?>):\n\1\n:g' < "$1") <(sed -E 's:(<[^>]+?>):\n\1\n:g' < "$2")
-}
-
-# Handy JSON-formatting tool for when HTTPie is not available. Passes all args
-# directly into a "silent" curl and prints human-formatted JSON to stdout.
-jcurl() {
-    curl -s "$@" | python -m json.tool
-}
-
-# Start a web server whose document root is the current working directory. Use
-# `serve 3333` to serve on port 3333 instead of the built-in default. ^C quits.
-serve() {
-    if has python3; then
-        python3 -m http.server --bind 0.0.0.0 "$@"
-    else
-        python -m SimpleHTTPServer "$@"
-    fi
-}
 
 # Forcibly stop and remove every container, volume, image, network, and cached
 # item it holds. This is a terribly destructive "burn down the world" function
