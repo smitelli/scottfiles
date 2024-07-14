@@ -27,5 +27,6 @@
 		"SublimeLinter-flake8",
 		"Terraform",
 		"Theme - Alpenglow",
+		"TOML",
 	],
 }
