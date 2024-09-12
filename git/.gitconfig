@@ -12,6 +12,10 @@
     filemode = false
     pager = less -SR
 
+[init]
+    # https://felipec.wordpress.com/2020/11/13/git-master/
+    defaultBranch = master
+
 [merge]
     conflictstyle = diff3
 
