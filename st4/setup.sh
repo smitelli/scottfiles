@@ -20,7 +20,7 @@ else
 fi
 
 # Install Package Control, which will then install everything else
-curl -fL 'https://packagecontrol.io/Package%20Control.sublime-package' -o "${SUBLIME_PATH}/Installed Packages/Package Control.sublime-package"
+curl -fL 'https://github.com/wbond/package_control/releases/latest/download/Package.Control.sublime-package' -o "${SUBLIME_PATH}/Installed Packages/Package Control.sublime-package"
 
 # Install individual preference files into the User package
 ${LINK_CMD} "${SELF_DIR}/Markdown.sublime-settings" "${SUBLIME_PATH}/Packages/User/"
