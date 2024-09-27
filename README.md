@@ -7,6 +7,7 @@ by [Scott Smitelli](mailto:scott@smitelli.com)
 ## Requirements
 
   * [GNU Stow](https://www.gnu.org/software/stow/)
+  * For colors on macOS, [coreutils](https://formulae.brew.sh/formula/coreutils)
 
 ## Usage
 
