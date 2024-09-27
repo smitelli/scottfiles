@@ -96,9 +96,16 @@ COLOR_BOLD_WHITE=$(termcolor -B -f WHITE)
 colors() {
     local color
 
-    for color in ${!COLOR_*}; do
-        echo -e "${!color}${color}${COLOR_NC}"
-    done
+    if [[ -n "${BASH_VERSION}" ]]; then
+        for color in ${!COLOR_*}; do
+            echo -e "${!color}${color}${COLOR_NC}"
+        done
+    elif [[ -n "${ZSH_VERSION}" ]]; then
+        for name in $(typeset +m 'COLOR_*'); do
+            eval color="\$${name}"
+            echo -e "${color}${name}${COLOR_NC}"
+        done
+    fi
 }
 
 export CLICOLOR=1
