@@ -93,7 +93,7 @@ fi
 # Forcibly stop and remove every container, volume, image, network, and cached
 # item it holds. This is a terribly destructive "burn down the world" function
 # that should only be used when it is actually desired to burn down the world.
-has docker && docker_zap () {
+has docker && docker_zap() {
     containers=$(docker ps --all --quiet)
     if [ -n "$containers" ]; then
         docker stop "$containers"
@@ -114,4 +114,23 @@ has mplayer && mplayall() {
     fi
 
     mplayer -playlist <(find "$dname" -type f)
+}
+
+# On macOS (specifically) it sometimes happens that a software update or a brew
+# upgrade messes up Sublime Text 4 in a pretty severe way. This function is a
+# big dumb hammer that removes all of the "not that important" state so it can
+# be recreated fresh, hopefully without errors this time.
+has subl && st4_zap() {
+    macpath="${HOME}/Library"
+
+    if [ -d "${macpath}" ]; then
+        rm -rf "${macpath}/Caches/com.sublimetext.4"
+        rm -rf "${macpath}/Caches/Sublime Text"
+        rm -rf "${macpath}/HTTPStorages/com.sublimetext.4"
+        rm -rf "${macpath}/Saved Application State/com.sublimetext.4.savedState"
+    else
+        echo 'Could not find the Sublime Text data directory.'
+        echo 'Make sure Sublime Text has been started at least once or fix this script.'
+        exit 1
+    fi
 }
