@@ -18,7 +18,7 @@ HISTCONTROL=ignoreboth
 # HISTSIZE
 #       The number of commands to remember in the command  history  (see
 #       HISTORY below).  The default value is 500.
-HISTSIZE=100000
+HISTSIZE=10000000
 
 # checkwinsize
 #       If  set,  bash checks the window size after each command
@@ -26,7 +26,8 @@ HISTSIZE=100000
 #       UMNS.
 shopt -s checkwinsize
 
-# cmdhist If  set,  bash attempts to save all lines of a multiple-
+# cmdhist
+#       If  set,  bash attempts to save all lines of a multiple-
 #       line command in the same  history  entry.   This  allows
 #       easy re-editing of multi-line commands.
 shopt -s cmdhist
@@ -37,7 +38,8 @@ shopt -s cmdhist
 #       exits, rather than overwriting the file.
 shopt -s histappend
 
-# lithist If  set,  and  the cmdhist option is enabled, multi-line
+# lithist
+#       If  set,  and  the cmdhist option is enabled, multi-line
 #       commands are saved to the history with embedded newlines
 #       rather than using semicolon separators where possible.
 shopt -u lithist

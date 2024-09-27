@@ -10,11 +10,11 @@ esac
 . "${SCOTTFILES_PATH}/_shell-shared/include.sh"
 . "${SCOTTFILES_PATH}/_shell-shared/path.sh"
 
-# If there is a system-wide bashrc file, source it first.
-trysource /etc/bashrc
+# If there is a system-wide zshrc file, source it first.
+trysource /etc/zshrc
 
-# Source everything that is cross-shell compatible (e.g. with zsh)
+# Source everything that is cross-shell compatible (e.g. with bash)
 trysource_all "${HOME}/.shrc.d"
 
-# Source everything in the bashrc directory, then we're done!
-trysource_all "${HOME}/.bashrc.d"
+# Source everything in the zshrc directory, then we're done!
+trysource_all "${HOME}/.zshrc.d"

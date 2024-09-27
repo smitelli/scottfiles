@@ -1,5 +1,5 @@
 # Zoom (maximize) each Terminal window to its current screen when opened.
-osascript -e 'tell application "Terminal" to tell first window to set zoomed to true'
+(osascript -e 'tell application "Terminal" to tell first window to set zoomed to true' &)
 
 # Enable TouchID for sudo if not already set up.
 #
