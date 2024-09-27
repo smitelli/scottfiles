@@ -17,13 +17,17 @@ done
 # Diff two heavily-minified HTML files. (Useful for figuring out what's actually
 # causing differences between Hugo output runs.)
 htmldiff() {
-    diff --side-by-side --width=$COLUMNS <(sed -E 's:(<[^>]+?>):\n\1\n:g' < "$1") <(sed -E 's:(<[^>]+?>):\n\1\n:g' < "$2")
+    diff --side-by-side --width=$COLUMNS <(sed -E 's:(<[^>]+>):\n\1\n:g' < "$1") <(sed -E 's:(<[^>]+>):\n\1\n:g' < "$2")
 }
 
 # Handy JSON-formatting tool for when HTTPie is not available. Passes all args
 # directly into a "silent" curl and prints human-formatted JSON to stdout.
 jcurl() {
-    curl -s "$@" | python -m json.tool
+    if has python3; then
+        curl -s "$@" | python3 -m json.tool
+    else
+        curl -s "$@" | python -m json.tool
+    fi
 }
 
 # Start a web server whose document root is the current working directory. Use

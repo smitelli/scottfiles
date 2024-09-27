@@ -23,3 +23,7 @@ HISTSIZE=10000000
 # SAVEHIST
 #     The maximum number of history events to save in the history file.
 SAVEHIST=10000000
+
+# INTERACTIVE_COMMENTS
+#     Allow comments even in interactive shells.
+setopt INTERACTIVE_COMMENTS
