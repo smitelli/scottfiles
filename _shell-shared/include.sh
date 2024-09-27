@@ -14,11 +14,11 @@ has() {
 # does not exist or is unreadable, it returns non-zero and does nothing. The
 # sourced script may return any value it wants.
 trysource() {
-    [[ -n "$SCOTTFILES_DEBUG" ]] && printf 'trysource %s...' "$1"
+    [[ -n "${SCOTTFILES_DEBUG}" ]] && printf 'trysource %s...' "$1"
     local fname="$1"
 
-    [[ -f "$fname" && -r "$fname" ]] && . "$fname"
-    [[ -n "$SCOTTFILES_DEBUG" ]] && printf ' done.\n'
+    [[ -f "${fname}" && -r "${fname}" ]] && . "${fname}"
+    [[ -n "${SCOTTFILES_DEBUG}" ]] && printf ' done.\n'
 }
 
 # Checks if the provided directory exists, and if so, sources every file
@@ -28,9 +28,9 @@ trysource() {
 trysource_all() {
     local dname="$1" fname
 
-    if [[ -d "$dname" && -r "$dname" && -x "$dname" ]]; then
-        for fname in "$dname"/*; do
-            trysource "$fname"
+    if [[ -d "${dname}" && -r "${dname}" && -x "${dname}" ]]; then
+        for fname in "${dname}"/*; do
+            trysource "${fname}"
         done
     else
         return 1

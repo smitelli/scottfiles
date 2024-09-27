@@ -5,12 +5,12 @@ MACPATH="${HOME}/Library/Application Support/Sublime Text"
 
 SELF_DIR="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-if [ -d "$WINPATH" ]; then
-    SUBLIME_PATH="$WINPATH"
+if [ -d "${WINPATH}" ]; then
+    SUBLIME_PATH="${WINPATH}"
     PLATFORM=win
     LINK_CMD='ln -f'
-elif [ -d "$MACPATH" ]; then
-    SUBLIME_PATH="$MACPATH"
+elif [ -d "${MACPATH}" ]; then
+    SUBLIME_PATH="${MACPATH}"
     PLATFORM=mac
     LINK_CMD='ln -sf'
 else

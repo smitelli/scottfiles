@@ -12,15 +12,15 @@ if ls /usr/lib/pam/pam_tid.so* > /dev/null 2>&1; then
     MARKER_LINE='# sudo: auth account password session'
     APPEND_LINE='auth       sufficient     pam_tid.so'
 
-    if grep -q pam_tid.so "$PAM_FILE"; then
+    if grep -q pam_tid.so "${PAM_FILE}"; then
         # TouchID is already enabled, no need to do anything here
-        [[ -n "$SCOTTFILES_DEBUG" ]] && echo 'TouchID is already set up in PAM'
-    elif ! head -n1 "$PAM_FILE" | grep -q "$MARKER_LINE"; then
+        [[ -n "${SCOTTFILES_DEBUG}" ]] && echo 'TouchID is already set up in PAM'
+    elif ! head -n1 "${PAM_FILE}" | grep -q "${MARKER_LINE}"; then
         echo "ERROR: Can't add TouchID to ${PAM_FILE}; marker line not found."
     else
         echo "TouchID is not enabled in ${PAM_FILE}."
         echo 'Enter your macOS login password to enable it.'
 
-        sudo sed -i '' -e "s/$MARKER_LINE/$MARKER_LINE\n$APPEND_LINE/" "$PAM_FILE"
+        sudo sed -i '' -e "s/${MARKER_LINE}/${MARKER_LINE}\n${APPEND_LINE}/" "${PAM_FILE}"
     fi
 fi

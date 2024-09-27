@@ -142,7 +142,7 @@ if ls --color > /dev/null 2>&1; then
         elif has gdircolors; then
             eval "$(gdircolors "${dircolors_file}")"
         else
-            [[ -n "$SCOTTFILES_DEBUG" ]] && echo 'No dircolors on $PATH; not setting LS_COLORS'
+            [[ -n "${SCOTTFILES_DEBUG}" ]] && echo 'No dircolors on $PATH; not setting LS_COLORS'
         fi
     fi
 

@@ -20,11 +20,11 @@ rawurlencode() {
 urlencode() {
     local arg="$1"
 
-    arg=$(rawurlencode "$arg")
-    arg=$(echo "$arg" | sed "s/~/%7E/g")
-    arg=$(echo "$arg" | sed "s/%20/+/g")
+    arg=$(rawurlencode "${arg}")
+    arg=$(echo "${arg}" | sed "s/~/%7E/g")
+    arg=$(echo "${arg}" | sed "s/%20/+/g")
 
-    echo "$arg"
+    echo "${arg}"
 }
 
 # Decodes any percent-encoded characters in the first argument. Can fully decode
@@ -60,9 +60,9 @@ rawurldecode() {
 urldecode() {
     local arg="$1"
 
-    arg=$(echo "$arg" | tr "+" " ")
+    arg=$(echo "${arg}" | tr "+" " ")
 
-    rawurldecode "$arg"
+    rawurldecode "${arg}"
 }
 
 # Converts the first argument from an 'rgb(11, 22, 33)' color format into a

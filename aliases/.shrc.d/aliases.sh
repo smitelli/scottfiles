@@ -66,7 +66,7 @@ if has exiftool; then
             180) rot=270 ;;
             270) rot=0   ;;
             *)
-                echo "$FUNCNAME: Could not parse EXIF Rotation tag from \"$1\"" >&2
+                echo "${FUNCNAME}: Could not parse EXIF Rotation tag from \"$1\"" >&2
                 return 1
                 ;;
         esac
@@ -81,7 +81,7 @@ if has exiftool; then
             180) rot=90  ;;
             270) rot=180 ;;
             *)
-                echo "$FUNCNAME: Could not parse EXIF Rotation tag from \"$1\"" >&2
+                echo "${FUNCNAME}: Could not parse EXIF Rotation tag from \"$1\"" >&2
                 return 1
                 ;;
         esac
@@ -95,8 +95,8 @@ fi
 # that should only be used when it is actually desired to burn down the world.
 has docker && docker_zap() {
     containers=$(docker ps --all --quiet)
-    if [ -n "$containers" ]; then
-        docker stop "$containers"
+    if [ -n "${containers}" ]; then
+        docker stop "${containers}"
     fi
 
     docker system prune --all --volumes
@@ -113,7 +113,7 @@ has mplayer && mplayall() {
         dname=$(pwd)
     fi
 
-    mplayer -playlist <(find "$dname" -type f)
+    mplayer -playlist <(find "${dname}" -type f)
 }
 
 # On macOS (specifically) it sometimes happens that a software update or a brew
