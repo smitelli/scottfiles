@@ -5,7 +5,7 @@ rawurlencode() {
     while [ "$i" -lt "${#arg}" ]; do
         c=${arg:$i:1}
         if echo "$c" | grep -q '[0-9A-Za-z\-\._~]'; then
-            printf "$c"
+            printf '%s' "$c"
         else
             printf "%%%X" "'$c'"
         fi
@@ -31,16 +31,24 @@ urlencode() {
 # an RFC 3986 string, plus any additional characters that may have been
 # erroneously encoded.
 rawurldecode() {
-    local c LANG=C arg="$1" i=0
+    local b c LANG=C arg="$1" i=0
+
+    if [[ -n "${ZSH_VERSION}" ]]; then
+        b=1
+    else
+        b=0
+    fi
+
     while [ "$i" -lt "${#arg}" ]; do
-        c[0]=${arg:$i:1}
-        if [ "_${c[0]}_" = "_%_" ]; then
-            c[1]=${arg:$((i+1)):1}
-            c[2]=${arg:$((i+2)):1}
-            printf "\x${c[1]}${c[2]}"
+        c[b+0]=${arg:$i:1}
+        if [ "_${c[b+0]}_" = "_%_" ]; then
+            c[b+1]=${arg:$((i+1)):1}
+            c[b+2]=${arg:$((i+2)):1}
+            # shellcheck disable=SC2059
+            printf "\x${c[b+1]}${c[b+2]}"
             i=$((i+3))
         else
-            printf "${c[0]}"
+            printf '%s' "${c[b+0]}"
             i=$((i+1))
         fi
     done
@@ -59,7 +67,7 @@ urldecode() {
 
 # Converts the first argument from an 'rgb(11, 22, 33)' color format into a
 # '#0B1621' color format. No sanity checking is performed, so ensure that the
-# input values are 0 <= channel <= 255.
+# input values are 0 <= channel <= 255. Quote the argument!
 rgb2hex() {
     perl -e '
         (shift @ARGV) =~
@@ -69,7 +77,7 @@ rgb2hex() {
 }
 
 # Converts the first argument from a '#63584D' or '63584D' color format into an
-# 'rgb(99, 88, 77)' color format. The number sign is optional.
+# 'rgb(99, 88, 77)' color format. The leading number sign is optional.
 hex2rgb() {
     perl -e '
         (shift @ARGV) =~

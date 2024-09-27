@@ -5,4 +5,4 @@ else
 fi
 
 export EDITOR
-export GIT_EDITOR=$EDITOR
+export GIT_EDITOR="${EDITOR}"
