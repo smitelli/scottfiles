@@ -43,12 +43,12 @@ ansicolor() {
     while getopts 'f:b:BIULRCS' opt; do
         case "${opt}" in
             f)
-                key="ANSI_${OPTARG}"
-                [[ -n "${!key}" ]] && fgcolor="${ANSI_FG}${!key}"
+                eval color="\$ANSI_${OPTARG}"
+                [[ -n "${color}" ]] && fgcolor="${ANSI_FG}${color}"
                 ;;
             b)
-                key="ANSI_${OPTARG}"
-                [[ -n "${!key}" ]] && bgcolor="${ANSI_BG}${!key}"
+                eval color="\$ANSI_${OPTARG}"
+                [[ -n "${color}" ]] && bgcolor="${ANSI_BG}${color}"
                 ;;
             B) style="${ANSI_BOLD}";;
             I) style="${ANSI_ITALIC}";;
@@ -105,7 +105,7 @@ export CLICOLOR=1
 
 # Colors for ls
 if $(ls --color >/dev/null 2>&1); then
-    # For non-OS X
+    # For all systems except old OS X
     local dircolors_file="${HOME}/.dircolors/dircolors-solarized/dircolors.ansi-universal"
 
     if (has dircolors && [[ -f "${dircolors_file}" && -r "${dircolors_file}" ]]); then
@@ -114,7 +114,7 @@ if $(ls --color >/dev/null 2>&1); then
 
     alias ls='ls --color=auto'
 else
-    # For OS X -- A cheap approximation
+    # For old OS X -- A cheap approximation
     # https://github.com/seebi/dircolors-solarized/issues/10
     export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
 fi
