@@ -5,4 +5,4 @@
 #
 
 # Uncomment the following line if there is any question about what's going on.
-# SCOTTFILES_DEBUG=1
+# export SCOTTFILES_DEBUG=1

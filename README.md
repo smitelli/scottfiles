@@ -18,7 +18,7 @@ or just remove the symlinks for that package by hand.
 
 ## Useful Environment Variables
 
-```bash
+```shell-script
 export SCOTTFILES_WORKTOOLS_GITHUB_ORG=<whatever>
 export SCOTTFILES_WORKTOOLS_GIT_ROOT=/Users/...
 export SCOTTFILES_WORKTOOLS_KEEPUSH_USER=<whatever>

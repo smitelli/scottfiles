@@ -7,18 +7,18 @@
 # Tests to see if the shell recognizes the provided name(s) as an executable
 # binary, script, builtin, etc. Returns 0 if the name(s) exist, 1 otherwise.
 has() {
-    hash "$@" &>/dev/null
+    hash "$@" >/dev/null 2>&1
 }
 
 # Checks if the provided filename exists, and if so, sources it. If the filename
 # does not exist or is unreadable, it returns non-zero and does nothing. The
 # sourced script may return any value it wants.
 trysource() {
-    [[ -n "$SCOTTFILES_DEBUG" ]] && echo -n "trysource $1..."
+    [[ -n "$SCOTTFILES_DEBUG" ]] && printf 'trysource %s...' "$1"
     local fname="$1"
 
     [[ -f "$fname" && -r "$fname" ]] && . "$fname"
-    [[ -n "$SCOTTFILES_DEBUG" ]] && echo ' done.'
+    [[ -n "$SCOTTFILES_DEBUG" ]] && printf ' done.\n'
 }
 
 # Checks if the provided directory exists, and if so, sources every file

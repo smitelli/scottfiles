@@ -1,6 +1,6 @@
 # One-word update of the scottfiles.
 if has git; then
-    alias scottpull="pushd ${HOME}/.scottfiles; git pull; popd; exec bash"
+    alias scottpull='pushd ${SCOTTFILES_PATH}; git pull; popd; exec ${SHELL}'
 fi
 
 # Aliases for ls, distilled from a whole slew of Linux distros.
@@ -93,7 +93,7 @@ fi
 # Forcibly stop and remove every container, volume, image, network, and cached
 # item it holds. This is a terribly destructive "burn down the world" function
 # that should only be used when it is actually desired to burn down the world.
-has docker && docker-zap () {
+has docker && docker_zap () {
     containers=$(docker ps --all --quiet)
     if [ -n "$containers" ]; then
         docker stop "$containers"
@@ -108,7 +108,7 @@ has mplayer && mplayall() {
     local dname
 
     if [[ "$1" != "" ]]; then
-        dname=$(cd "$1"; pwd)
+        dname=$(cd "$1" || exit 1; pwd)
     else
         dname=$(pwd)
     fi
