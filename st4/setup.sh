@@ -19,6 +19,9 @@ else
     exit 1
 fi
 
+# Definitely don't want Sublime Text running while we're messing with it
+killall sublime_text && sleep 2
+
 # Install Package Control, which will then install everything else
 curl -fL 'https://github.com/wbond/package_control/releases/latest/download/Package.Control.sublime-package' -o "${SUBLIME_PATH}/Installed Packages/Package Control.sublime-package"
 
