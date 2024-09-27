@@ -134,7 +134,7 @@ export LESS_TERMCAP_ue="${COLOR_NC}"  # End underline
 if ls --color > /dev/null 2>&1; then
     # For all systems except old OS X
     # For current macOS, install GNU coreutils to get gdircolors command
-    local dircolors_file="${HOME}/.dircolors/dircolors-solarized/dircolors.ansi-universal"
+    dircolors_file="${HOME}/.dircolors/dircolors-solarized/dircolors.ansi-universal"
 
     if [[ -f "${dircolors_file}" && -r "${dircolors_file}" ]]; then
         if has dircolors; then
@@ -145,6 +145,7 @@ if ls --color > /dev/null 2>&1; then
             [[ -n "${SCOTTFILES_DEBUG}" ]] && echo 'No dircolors on $PATH; not setting LS_COLORS'
         fi
     fi
+    unset dircolors_file
 
     alias ls='ls --color=auto'
 else
