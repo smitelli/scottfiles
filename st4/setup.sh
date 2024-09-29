@@ -33,6 +33,7 @@ ${LINK_CMD} "${SELF_DIR}/Pretty JSON.sublime-settings" "${SUBLIME_PATH}/Packages
 
 echo 'All files have been installed. Startup may require a bit of a dance:'
 echo '1. Start Sublime Text, ignore any visual glitches, and dismiss all errors.'
+echo '   (Consider Ctrl+` to watch the console log.)'
 echo '2. Let it think about itself for a few minutes, then quit Sublime Text.'
 echo '3. `git reset --hard HEAD` in this repository.'
 echo '4. Restart Sublime Text, enter the license if necessary, and enjoy.'
