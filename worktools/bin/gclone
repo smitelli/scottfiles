@@ -11,10 +11,34 @@ from pathlib import Path
 
 
 class GCloneConfig:
-    clone_root = Path(os.environ['SCOTTFILES_WORKTOOLS_GIT_ROOT'])
-    github_org = os.environ['SCOTTFILES_WORKTOOLS_GITHUB_ORG']
     wiki_subdir = '.github-wiki'
     wiki_default_branch = 'master'
+
+    def __init__(self):
+        try:
+            self.clone_root = Path(os.environ['SCOTTFILES_WORKTOOLS_GIT_ROOT'])
+            self.github_org = os.environ['SCOTTFILES_WORKTOOLS_GITHUB_ORG']
+        except KeyError:
+            search_path = Path.cwd()
+            while True:
+                testfile = search_path / '.worktools'
+                if testfile.is_file():
+                    self.parse_config_file(testfile)
+                    break
+
+                if search_path == search_path.parent:
+                    raise RuntimeError('No SCOTTFILES_WORKTOOLS_* or .worktools files')
+
+                search_path = search_path.parent
+
+    def parse_config_file(self, file_obj):
+        self.clone_root = file_obj.parent
+
+        cfg = file_obj.read_text()
+        for ln in cfg.splitlines():
+            key, val = ln.split('=', maxsplit=1)
+            if key == 'GITHUB_ORG':
+                self.github_org = val
 
     def parse_args(self, args):
         for a in ('force_archive_pull', 'ignore_errors', 'probe_wikis'):

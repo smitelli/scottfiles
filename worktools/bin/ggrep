@@ -5,7 +5,21 @@ import subprocess
 import sys
 from pathlib import Path
 
-ROOT = os.environ['SCOTTFILES_WORKTOOLS_GIT_ROOT']
+
+try:
+    ROOT = os.environ['SCOTTFILES_WORKTOOLS_GIT_ROOT']
+except KeyError:
+    search_path = Path.cwd()
+    while True:
+        testfile = search_path / '.worktools'
+        if testfile.is_file():
+            ROOT = str(search_path)
+            break
+
+        if search_path == search_path.parent:
+            raise RuntimeError('No SCOTTFILES_WORKTOOLS_* or .worktools files')
+
+        search_path = search_path.parent
 
 
 def get_all_git_dirs(root):
