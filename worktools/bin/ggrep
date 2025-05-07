@@ -9,17 +9,14 @@ from pathlib import Path
 try:
     ROOT = os.environ['SCOTTFILES_WORKTOOLS_GIT_ROOT']
 except KeyError:
-    search_path = Path.cwd()
-    while True:
-        testfile = search_path / '.worktools'
+    search_paths = [Path.cwd()] + list(Path.cwd().parents)
+    for p in search_paths:
+        testfile = p / '.worktools'
         if testfile.is_file():
-            ROOT = str(search_path)
+            ROOT = str(p)
             break
-
-        if search_path == search_path.parent:
-            raise RuntimeError('No SCOTTFILES_WORKTOOLS_* or .worktools files')
-
-        search_path = search_path.parent
+    else:
+        raise RuntimeError('No SCOTTFILES_WORKTOOLS_* or .worktools files')
 
 
 def get_all_git_dirs(root):

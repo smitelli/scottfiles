@@ -19,17 +19,14 @@ class GCloneConfig:
             self.clone_root = Path(os.environ['SCOTTFILES_WORKTOOLS_GIT_ROOT'])
             self.github_org = os.environ['SCOTTFILES_WORKTOOLS_GITHUB_ORG']
         except KeyError:
-            search_path = Path.cwd()
-            while True:
-                testfile = search_path / '.worktools'
+            search_paths = [Path.cwd()] + list(Path.cwd().parents)
+            for p in search_paths:
+                testfile = p / '.worktools'
                 if testfile.is_file():
                     self.parse_config_file(testfile)
                     break
-
-                if search_path == search_path.parent:
-                    raise RuntimeError('No SCOTTFILES_WORKTOOLS_* or .worktools files')
-
-                search_path = search_path.parent
+            else:
+                raise RuntimeError('No SCOTTFILES_WORKTOOLS_* or .worktools files')
 
     def parse_config_file(self, file_obj):
         self.clone_root = file_obj.parent
