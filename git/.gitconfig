@@ -16,6 +16,12 @@
     # https://felipec.wordpress.com/2020/11/13/git-master/
     defaultBranch = master
 
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+
 [merge]
     conflictstyle = diff3
 
