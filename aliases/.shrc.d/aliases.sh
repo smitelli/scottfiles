@@ -48,8 +48,9 @@ elif has youtube-dl; then
 fi
 if has_alias _ytdl; then
     alias ytdl='_ytdl --download-archive .ytdl-archive -o "%(uploader)s - %(title)s.%(ext)s"'
-    alias ytdl2='_ytdl --download-archive .ytdl-archive -o "%(uploader)s - %(title).150s [%(id)s].%(ext)s"'
     alias ytdl-public='ytdl --match-filter "availability=public"'
+    alias ytdl2='_ytdl --download-archive .ytdl-archive -o "%(uploader)s - %(title).150s [%(id)s].%(ext)s"'
+    alias ytdl2-public='ytdl2 --match-filter "availability=public"'
 fi
 
 if has kubectl; then
