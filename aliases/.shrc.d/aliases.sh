@@ -40,13 +40,16 @@ serve() {
     fi
 }
 
-# Wrapper for my preferred invocation of youtube-dl/yt-dlp.
+# Wrapper for my preferred invocations of youtube-dl/yt-dlp.
 if has yt-dlp; then
-    alias ytdl='yt-dlp -o "%(uploader)s - %(title).150s.%(ext)s" --download-archive .ytdl-archive --match-filter "availability=public"'
-    alias ytdl2='yt-dlp -o "%(uploader)s - %(title).150s [%(id)s].%(ext)s" --download-archive .ytdl-archive --match-filter "availability=public"'
+    alias _ytdl=yt-dlp
 elif has youtube-dl; then
-    alias ytdl='youtube-dl -o "%(uploader)s - %(title)s.%(ext)s" --download-archive .ytdl-archive --match-filter "availability=public"'
-    alias ytdl2='youtube-dl -o "%(uploader)s - %(title)s [%(id)s].%(ext)s" --download-archive .ytdl-archive --match-filter "availability=public"'
+    alias _ytdl=youtube-dl
+fi
+if has_alias _ytdl; then
+    alias ytdl='_ytdl --download-archive .ytdl-archive -o "%(uploader)s - %(title)s.%(ext)s"'
+    alias ytdl2='_ytdl --download-archive .ytdl-archive -o "%(uploader)s - %(title).150s [%(id)s].%(ext)s"'
+    alias ytdl-public='ytdl --match-filter "availability=public"'
 fi
 
 if has kubectl; then
@@ -114,6 +117,17 @@ has mplayer && mplayall() {
     fi
 
     mplayer -playlist <(find "${dname}" -type f)
+}
+
+# Present a list of all the AWS CLI profiles defined, switch the shell's
+# AWS_PROFILE to the selection, and perform an SSO login if it seems to be
+# necessary at the moment.
+has aws && sso() {
+    export AWS_PROFILE=$(aws configure list-profiles | sort | fzf)
+
+    if ! aws sts get-caller-identity > /dev/null 2>&1; then
+        aws sso login
+    fi
 }
 
 # On macOS (specifically) it sometimes happens that a software update or a brew

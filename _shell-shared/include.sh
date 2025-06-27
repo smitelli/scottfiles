@@ -10,6 +10,12 @@ has() {
     hash "$@" >/dev/null 2>&1
 }
 
+# Tests to see if the shell recognizes the provided name(s) as an alias. Returns
+# 0 if the name(s) exist, 1 otherwise.
+has_alias() {
+    alias "$@" > /dev/null 2>&1
+}
+
 # Checks if the provided filename exists, and if so, sources it. If the filename
 # does not exist or is unreadable, it returns non-zero and does nothing. The
 # sourced script may return any value it wants.
