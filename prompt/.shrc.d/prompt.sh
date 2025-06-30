@@ -6,6 +6,8 @@ _ps1_host_color() {
             color="${COLOR_RED}";;
         blunderbuss*|triton*)
             color="${COLOR_GREEN}";;
+        scotts-mbp*)
+            color="${COLOR_MAGENTA}";;
         *)
             color="${COLOR_YELLOW}";;
     esac
@@ -19,6 +21,8 @@ _ps1_user_color() {
     case "${USER}" in
         ssmitelli)
             color="${COLOR_GREEN}";;
+        scotts)
+            color="${COLOR_MAGENTA}";;
         *)
             color="${COLOR_YELLOW}";;
     esac
