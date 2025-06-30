@@ -57,6 +57,7 @@ if has kubectl; then
     # Why this isn't the default (or at least made quicker to type) is beyond me
     alias kevents="kubectl get events --sort-by='.lastTimestamp'"
     alias kdrain="kubectl drain --delete-emptydir-data --ignore-daemonsets"
+    alias k=kubectl
 fi
 
 # Lossless in-place rotation of all image/video files supported by exiftool.
