@@ -29,6 +29,7 @@
     ff = only
 
 [push]
+    autoSetupRemote = true
     default = simple
     followTags = true
 
