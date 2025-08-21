@@ -5,7 +5,6 @@
 [alias]
     log2 = log --graph --full-history --all --color --pretty=format:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x1b[33m[%an]%x1b[39m%x20%s"
     log3 = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
-    prune = fetch --prune
     stash-all = stash save --include-untracked
 
 [core]
@@ -15,6 +14,10 @@
 [init]
     # https://felipec.wordpress.com/2020/11/13/git-master/
     defaultBranch = master
+
+[fetch]
+    prune = true
+    pruneTags = true
 
 [filter "lfs"]
     clean = git-lfs clean -- %f
