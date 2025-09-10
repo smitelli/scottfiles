@@ -126,7 +126,7 @@ def clone_repo(name, url):
 
 
 def maintain_repo(name, default_branch):
-    echo_and_call(['git', 'fetch', '--all', '--prune'], cwd=config.clone_root / name)
+    echo_and_call(['git', 'fetch', '--all', '--force', '--prune'], cwd=config.clone_root / name)
 
     # Failure is acceptable if working tree is not clean, etc.
     echo_and_call(['git', 'checkout', default_branch], cwd=config.clone_root / name, ignore_errors=True)
