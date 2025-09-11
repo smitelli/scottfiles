@@ -59,7 +59,6 @@
 	"hardware_acceleration": "none",
 	"highlight_line": true,
 	"ignored_packages": [
-		"Markdown",
 		"Vintage"
 	],
 	"indent_guide_options": [
@@ -67,6 +66,7 @@
 		"draw_normal",
 		"solid"
 	],
+	"index_files": true,
 	"margin": 0,
 	"mini_diff": false,
 	"mouse_wheel_switches_tabs": false,

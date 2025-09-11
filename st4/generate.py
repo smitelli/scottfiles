@@ -20,7 +20,6 @@ BASE_PREFS = {
     "focus_on_file_drop": True,
     "preview_on_click": "only_left",
     "ignored_packages": [
-        "Markdown",
         "Vintage"
     ],
 
@@ -99,11 +98,12 @@ BASE_PREFS = {
     "find_selected_text": True,
     "font_options": [],
     "hardware_acceleration": "none",
+    "index_files": True,
+    "mouse_wheel_switches_tabs": False,  # undocumented
     "move_to_limit_on_up_down": False,
     "open_files_in_new_window": "never",
     "scroll_past_end": True,
-    "show_full_path": True,
-    "mouse_wheel_switches_tabs": False  # undocumented
+    "show_full_path": True
 }
 
 windows_prefs = {

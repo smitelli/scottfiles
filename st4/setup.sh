@@ -26,10 +26,16 @@ killall sublime_text && sleep 2
 curl -fL 'https://github.com/wbond/package_control/releases/latest/download/Package.Control.sublime-package' -o "${SUBLIME_PATH}/Installed Packages/Package Control.sublime-package"
 
 # Install individual preference files into the User package
+mkdir -p "${SUBLIME_PATH}/Packages/User/"
 ${LINK_CMD} "${SELF_DIR}/Markdown.sublime-settings" "${SUBLIME_PATH}/Packages/User/"
 ${LINK_CMD} "${SELF_DIR}/Package Control.sublime-settings" "${SUBLIME_PATH}/Packages/User/"
 ${LINK_CMD} "${SELF_DIR}/Preferences.${PLATFORM}.sublime-settings" "${SUBLIME_PATH}/Packages/User/Preferences.sublime-settings"
 ${LINK_CMD} "${SELF_DIR}/Pretty JSON.sublime-settings" "${SUBLIME_PATH}/Packages/User/"
+${LINK_CMD} "${SELF_DIR}/SublimeLinter.sublime-settings" "${SUBLIME_PATH}/Packages/User/"
+
+# Same, for C Improved
+mkdir -p "${SUBLIME_PATH}/Packages/C Improved/"
+${LINK_CMD} "${SELF_DIR}/C Improved.sublime-settings" "${SUBLIME_PATH}/Packages/C Improved/"
 
 echo 'All files have been installed. Startup may require a bit of a dance:'
 echo '1. Start Sublime Text, ignore any visual glitches, and dismiss all errors.'

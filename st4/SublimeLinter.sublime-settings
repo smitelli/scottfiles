@@ -1,0 +1,18 @@
+// SublimeLinter Settings - User
+{
+    "linters": {
+        "annotations": {
+            "warnings": ["FIXME", "HACK", "TODO", "@todo", "WTF", "XXX"]
+        },
+        "flake8": {
+            "excludes": [
+                "*/.venv/*",
+                "*/.virtualenv/*"
+            ],
+            "args": [
+                "--max-complexity", "10",
+                "--max-line-length", "120"
+            ]
+        }
+    }
+}
