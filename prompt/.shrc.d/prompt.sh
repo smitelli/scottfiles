@@ -4,7 +4,7 @@ _ps1_host_color() {
     case "$(hostname -f)" in
         alala*)
             color="${COLOR_RED}";;
-        blunderbuss*|triton*)
+        blunderbuss*|pepperbox*|triton*)
             color="${COLOR_GREEN}";;
         scotts-mbp*)
             color="${COLOR_MAGENTA}";;
