@@ -136,7 +136,11 @@ has mplayer && mplayall() {
 # AWS_PROFILE to the selection, and perform an SSO login if it seems to be
 # necessary at the moment.
 has aws && sso() {
-    export AWS_PROFILE=$(aws configure list-profiles | sort | fzf)
+    profile=$(aws configure list-profiles | sort | fzf --delimiter=.)
+
+    [ -z "$profile" ] && return
+
+    export AWS_PROFILE="$profile"
 
     if ! aws sts get-caller-identity > /dev/null 2>&1; then
         aws sso login
