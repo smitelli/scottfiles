@@ -14,6 +14,13 @@ for i in {1..10}; do
     alias "${spaces// /.}."="cd ${spaces// /../}"
 done
 
+# `keepull` interactively prompts for a password and replaces the local copy of
+# the KeePassXC database file. The variables KEEPULL_USER, KEEPULL_URL, and
+# KEEPULL_DESTINATION come from... somewhere. You prolly know what you're doin'.
+if has wget && [ -n "$KEEPULL_USER" ] && [ -n "$KEEPULL_URL" ] && [ -n "$KEEPULL_DESTINATION" ]; then
+    alias keepull="wget --user=${KEEPULL_USER} --ask-password ${KEEPULL_URL} -O ${KEEPULL_DESTINATION}"
+fi
+
 # Diff two heavily-minified HTML files. (Useful for figuring out what's actually
 # causing differences between Hugo output runs.)
 htmldiff() {
