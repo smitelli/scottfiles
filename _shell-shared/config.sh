@@ -19,3 +19,9 @@
 #       wrapper script, which may take the file to display either as an argument
 #       or on standard input.
 export MANPAGER='less +Gg'
+
+# k9s Configuration > Env variables (https://k9scli.io/topics/config/)
+#       You can also globally override the context configuration by setting an
+#       env variable that will override all clusters node shell gate using
+#       K9S_FEATURE_GATE_NODE_SHELL=true|false
+export K9S_FEATURE_GATE_NODE_SHELL=true
