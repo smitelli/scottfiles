@@ -68,6 +68,3 @@
     added = yellow
     changed = green
     untracked = cyan
-
-[includeIf "gitdir:~/godental/**"]
-    path = ~/godental/.gitconfig
