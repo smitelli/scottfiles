@@ -68,3 +68,7 @@
     added = yellow
     changed = green
     untracked = cyan
+
+[include]
+    # Does not need to exist; allow for local, uncommitted overrides
+    path = ~/.gitconfig-local
