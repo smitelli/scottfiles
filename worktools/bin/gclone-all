@@ -1,12 +1,9 @@
 #!/bin/bash
 
 # Configure this using a bash array like so...
-# SCOTTFILES_WORKTOOLS_ALL_ROOTS=(
-#     "${HOME}/foo"
-#     "${HOME}/bar"
-# )
+# export SCOTTFILES_WORKTOOLS_ALL_ROOTS="${HOME}/foo ${HOME}/bar"
 
-for repo_root in "${SCOTTFILES_WORKTOOLS_ALL_ROOTS[@]}"; do
+for repo_root in $SCOTTFILES_WORKTOOLS_ALL_ROOTS; do
     pushd "$repo_root"
     gclone
     popd
