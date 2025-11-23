@@ -25,3 +25,8 @@ export MANPAGER='less +Gg'
 #       env variable that will override all clusters node shell gate using
 #       K9S_FEATURE_GATE_NODE_SHELL=true|false
 export K9S_FEATURE_GATE_NODE_SHELL=true
+
+# TODO These should move to (probably) $XDG_STATE_HOME: $HOME/.local/state
+# https://specifications.freedesktop.org/basedir/latest/
+# LESSHISTFILE="$HOME/.lesshst"
+# PYTHON_HISTORY="$HOME/.python_history"
