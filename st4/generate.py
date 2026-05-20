@@ -28,6 +28,7 @@ BASE_PREFS = {
     "color_scheme": "Packages/Theme - Alpenglow/Alpenglow-monokai.tmTheme",
     "font_face": "Consolas",
     "font_size": 10,
+    "default_font_size": 10,
     "caret_style": "smooth",
     "margin": 0,
     "ruler_style": "stippled",
@@ -106,21 +107,26 @@ BASE_PREFS = {
     "show_full_path": True
 }
 
-windows_prefs = {
+
+def write_prefs(filename, prefs):
+    lines = json.dumps(prefs, sort_keys=True, indent="\t").splitlines()
+    for i, line in enumerate(lines):
+        if line.endswith((',', '{', '[')) or line == '}':
+            continue
+        lines[i] += ','
+
+    with (SELF_DIR / filename).open("w") as f:
+        f.write('\n'.join(lines) + '\n')
+
+
+write_prefs("Preferences.win.sublime-settings", {
     **BASE_PREFS,
     "font_options": ["directwrite", "dwrite_cleartype_natural"]
-}
+})
 
-macos_prefs = {
+write_prefs("Preferences.mac.sublime-settings", {
     **BASE_PREFS,
     "font_size": int(round(BASE_PREFS["font_size"] * 1.4)),
+    "default_font_size": int(round(BASE_PREFS["default_font_size"] * 1.4)),
     "hardware_acceleration": "opengl"
-}
-
-with (SELF_DIR / "Preferences.win.sublime-settings").open("w") as f:
-    json.dump(windows_prefs, f, sort_keys=True, indent="\t")
-    f.write('\n')
-
-with (SELF_DIR / "Preferences.mac.sublime-settings").open("w") as f:
-    json.dump(macos_prefs, f, sort_keys=True, indent="\t")
-    f.write('\n')
+})

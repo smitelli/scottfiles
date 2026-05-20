@@ -6,9 +6,10 @@
 	"close_windows_when_empty": false,
 	"color_scheme": "Packages/Theme - Alpenglow/Alpenglow-monokai.tmTheme",
 	"copy_with_empty_selection": false,
+	"default_font_size": 14,
 	"default_line_ending": "unix",
 	"draw_white_space": [
-		"all"
+		"all",
 	],
 	"ensure_newline_at_eof_on_save": true,
 	"file_exclude_patterns": [
@@ -34,7 +35,7 @@
 		".DS_Store",
 		".coverage",
 		".directory",
-		"desktop.ini"
+		"desktop.ini",
 	],
 	"find_selected_text": true,
 	"focus_on_file_drop": true,
@@ -48,7 +49,7 @@
 		".svn",
 		".vagrant",
 		"CVS",
-		"__pycache__"
+		"__pycache__",
 	],
 	"font_face": "Consolas",
 	"font_options": [],
@@ -56,12 +57,12 @@
 	"hardware_acceleration": "opengl",
 	"highlight_line": true,
 	"ignored_packages": [
-		"Vintage"
+		"Vintage",
 	],
 	"indent_guide_options": [
 		"draw_active",
 		"draw_normal",
-		"solid"
+		"solid",
 	],
 	"index_files": true,
 	"margin": 0,
@@ -74,7 +75,7 @@
 	"ruler_style": "stippled",
 	"rulers": [
 		80,
-		120
+		120,
 	],
 	"scroll_past_end": true,
 	"show_encoding": true,
@@ -86,5 +87,5 @@
 	"tabs_small": true,
 	"theme": "Alpenglow-orange.sublime-theme",
 	"translate_tabs_to_spaces": true,
-	"trim_trailing_white_space_on_save": "not_on_caret"
+	"trim_trailing_white_space_on_save": "not_on_caret",
 }
