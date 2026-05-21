@@ -18,21 +18,19 @@ BASE_PREFS = {
 
     # Program behavior
     "focus_on_file_drop": True,
+    "ignored_packages": ["Vintage"],
     "preview_on_click": "only_left",
-    "ignored_packages": [
-        "Vintage"
-    ],
 
     # Themes and styling
-    "theme": "Alpenglow-orange.sublime-theme",
+    "bold_folder_labels": True,
+    "caret_style": "smooth",
     "color_scheme": "Packages/Theme - Alpenglow/Alpenglow-monokai.tmTheme",
+    "default_font_size": 10,
     "font_face": "Consolas",
     "font_size": 10,
-    "default_font_size": 10,
-    "caret_style": "smooth",
     "margin": 0,
     "ruler_style": "stippled",
-    "bold_folder_labels": True,
+    "theme": "Alpenglow-orange.sublime-theme",
 
     # Afterglow/Alpenglow theme-specific preferences
     # https://github.com/YabataDesign/afterglow-theme/blob/master/README.md
@@ -47,9 +45,9 @@ BASE_PREFS = {
     "rulers": [80, 120],
 
     # Show/hide interface components
-    "native_tabs": "disabled",
     "always_show_minimap_viewport": True,
     "mini_diff": False,
+    "native_tabs": "disabled",
     "show_encoding": True,
     "show_git_status": False,
     "show_line_endings": True,
@@ -79,7 +77,7 @@ BASE_PREFS = {
         ".DS_Store",
         ".coverage",
         ".directory",
-        "desktop.ini"
+        "desktop.ini",
     ],
     "folder_exclude_patterns": [
         "*.egg-info",
@@ -91,20 +89,21 @@ BASE_PREFS = {
         ".svn",
         ".vagrant",
         "CVS",
-        "__pycache__"
+        "__pycache__",
     ],
 
     # Restate default settings to normalize platform-specific behavior
     "close_windows_when_empty": False,
-    "find_selected_text": True,
+    "find_selected_text": False,
     "font_options": [],
-    "hardware_acceleration": "none",
+    "hardware_acceleration": "opengl",
     "index_files": True,
     "mouse_wheel_switches_tabs": False,  # undocumented
     "move_to_limit_on_up_down": False,
     "open_files_in_new_window": "never",
     "scroll_past_end": True,
-    "show_full_path": True
+    "show_full_path": True,
+    "overlay_scroll_bars": "disabled",
 }
 
 
@@ -128,5 +127,4 @@ write_prefs("Preferences.mac.sublime-settings", {
     **BASE_PREFS,
     "font_size": int(round(BASE_PREFS["font_size"] * 1.4)),
     "default_font_size": int(round(BASE_PREFS["default_font_size"] * 1.4)),
-    "hardware_acceleration": "opengl"
 })

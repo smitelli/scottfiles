@@ -37,7 +37,7 @@
 		".directory",
 		"desktop.ini",
 	],
-	"find_selected_text": true,
+	"find_selected_text": false,
 	"focus_on_file_drop": true,
 	"folder_exclude_patterns": [
 		"*.egg-info",
@@ -57,7 +57,7 @@
 		"dwrite_cleartype_natural",
 	],
 	"font_size": 10,
-	"hardware_acceleration": "none",
+	"hardware_acceleration": "opengl",
 	"highlight_line": true,
 	"ignored_packages": [
 		"Vintage",
@@ -74,6 +74,7 @@
 	"move_to_limit_on_up_down": false,
 	"native_tabs": "disabled",
 	"open_files_in_new_window": "never",
+	"overlay_scroll_bars": "disabled",
 	"preview_on_click": "only_left",
 	"ruler_style": "stippled",
 	"rulers": [
