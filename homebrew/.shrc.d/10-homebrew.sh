@@ -9,4 +9,7 @@ fi
 if has brew; then
     # https://docs.brew.sh/Analytics
     export HOMEBREW_NO_ANALYTICS=1
+
+    # https://docs.brew.sh/rubydoc/Homebrew/EnvConfig.html
+    export HOMEBREW_NO_ASK=1
 fi
