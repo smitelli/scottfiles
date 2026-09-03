@@ -18,7 +18,7 @@ done
 # the KeePassXC database file. The variables KEEPULL_USER, KEEPULL_URL, and
 # KEEPULL_DESTINATION come from... somewhere. You prolly know what you're doin'.
 if has wget && [ -n "$KEEPULL_USER" ] && [ -n "$KEEPULL_URL" ] && [ -n "$KEEPULL_DESTINATION" ]; then
-    alias keepull="wget --user=${KEEPULL_USER} --ask-password ${KEEPULL_URL} -O ${KEEPULL_DESTINATION}"
+    alias keepull="wget --user=${KEEPULL_USER} --ask-password ${KEEPULL_URL} --hsts-file /dev/null -O ${KEEPULL_DESTINATION}"
 fi
 
 # Diff two heavily-minified HTML files. (Useful for figuring out what's actually
