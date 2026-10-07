@@ -12,4 +12,5 @@ if has brew; then
 
     # https://docs.brew.sh/rubydoc/Homebrew/EnvConfig.html
     export HOMEBREW_NO_ASK=1
+    export HOMEBREW_NO_ENV_HINTS=1
 fi
