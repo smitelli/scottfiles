@@ -69,6 +69,10 @@ if has kubectl; then
 
     # Why this isn't the default (or at least made quicker to type) is beyond me
     alias kevents='kubectl get events --sort-by=".lastTimestamp"'
+
+    kn() {
+        kubectl config set-context --current --namespace="$1"
+    }
 fi
 
 # Lossless in-place rotation of all image/video files supported by exiftool.
