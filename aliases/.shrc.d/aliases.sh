@@ -1,6 +1,19 @@
-# One-word update of the scottfiles.
 if has git; then
+    # One-word update of the scottfiles.
     alias scottpull='pushd ${SCOTTFILES_PATH}; git pull; popd; exec ${SHELL}'
+
+    # Tighten up storage in every git repo within the passed path, recursively.
+    gitpack() {
+        find "$1" -name '.git' -type d | while read gitdir; do
+            repodir=$(realpath "${gitdir}/..")
+            echo "=== ${repodir} ==="
+            echo
+            git -C "$repodir" fsck
+            echo
+            git -C "$repodir" gc --aggressive
+            echo
+        done
+    }
 fi
 
 # Aliases for ls, distilled from a whole slew of Linux distros.
